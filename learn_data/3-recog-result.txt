@@ -1,4 +1,10 @@
+Airtours olidays
+.......s..c,....»..
+
+H
+......._.......»......,.
+
  
 
 -------------------------------
-Threshold: cv2.THRESH_BINARY 104/255
+Threshold: cv2.THRESH_BINARY 127/255
