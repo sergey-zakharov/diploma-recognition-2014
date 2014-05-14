@@ -4,10 +4,13 @@ import numpy as np
 
 class ImageManager:
     image_dict ={}
+    filename = ""
+    def __init__(self, image_dict_filename):
+        self.filename = image_dict_filename
 
     def loadImageDict(self):
          # get image_map file and creat dictionary of name and real file name
-        image_map_file = open('./learn_data/image_map', 'r+')
+        image_map_file = open(self.filename, 'r+')
         for line in image_map_file:
             splitted = line.split(' ')
             self.image_dict[splitted[0]] = splitted[1].replace('\n', '')
@@ -56,7 +59,7 @@ if __name__ == '__main__':
     import sys
 
     if len(sys.argv)>1:
-        im_manager = ImageManager()
+        im_manager = ImageManager("./learn_data/image_map")
         filename = sys.argv[1]
         im = cv2.imread(filename)
         gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
