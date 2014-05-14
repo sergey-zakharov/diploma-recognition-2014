@@ -151,21 +151,21 @@ def manualThresholdTypeSelector():
                 break
             elif k == 115: # 's'
                 splitted_path = sys.argv[1].split('/')
-                filename = splitted_path[-1].split('.')[0]
+                filename = splitted_path[-1]
                 ending = ''
                 if is_init_image:
                     ending = "-init"
                 else:
                     ending = "-thres"
-                full_name = filename + ".jpg"
+                full_name = filename
                 if full_name not in image_dict:
                     print image_dict
-                    name = writeToImageDict(filename + ".jpg")
+                    name = writeToImageDict(filename)
                 else:
-                    name = image_dict[filename + ".jpg"]
-                save_path = '/'.join(splitted_path[:-1]) + "/../learn_data/" + name + ".jpg"
-                bin_type_path = '/'.join(splitted_path[:-1]) + "/../learn_data/" + name + "-method" # ex: cv2.THRESH_BINARY 123
-                recognize_path = '/'.join(splitted_path[:-1]) + "/../learn_data/" + name + "-recog-result"
+                    name = image_dict[filename]
+                save_path = "./learn_data/" + name + ".jpg"
+                bin_type_path = "./learn_data/" + name + "-method" # ex: cv2.THRESH_BINARY 123
+                recognize_path = "./learn_data/" + name + "-recog-result"
                 ret = cv2.imwrite(save_path,resimg) #sys.argv[1][:-4] + "-thres.jpg"
                 if ret == 1:
                     print 'Image saved to ' + save_path
