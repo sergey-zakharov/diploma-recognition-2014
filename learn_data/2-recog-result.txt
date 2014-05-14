@@ -1,0 +1,8 @@
+DISCOVER THE DARK SIDE
+
+hi
+
+ 
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 177/255
