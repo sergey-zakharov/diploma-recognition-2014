@@ -1,34 +1,35 @@
 import cv2
 import numpy as np
 
-image_dict ={}
 
-def loadImageDict():
-    global image_dict
-     # get image_map file and creat dictionary of name and real file name
-    image_map_file = open('./learn_data/image_map', 'r+')
-    for line in image_map_file:
-        splitted = line.split(' ')
-        image_dict[splitted[0]] = splitted[1].replace('\n', '')
+class ImageManager:
+    image_dict ={}
 
-def getNewNameFromImageDict():
-    global image_dict
-    return str(int(image_dict[max(image_dict, key=image_dict.get)]) + 1)
+    def loadImageDict(self):
+         # get image_map file and creat dictionary of name and real file name
+        image_map_file = open('./learn_data/image_map', 'r+')
+        for line in image_map_file:
+            splitted = line.split(' ')
+            self.image_dict[splitted[0]] = splitted[1].replace('\n', '')
 
-def writeToImageDict(filename):
-    global image_dict
-    new_name = str(getNewNameFromImageDict())
-    image_dict[filename] = new_name
-    with open("./learn_data/image_map", "a") as myfile:
-        myfile.write(filename + " " + new_name +"\n")
-    loadImageDict()
-    return new_name
+    def getNewNameFromImageDict(self):
+        return str(int(self.image_dict[max(self.image_dict, key=self.image_dict.get)]) + 1)
 
-def get_numeral_filename(filename):
-    if filename in image_dict:
-        return image_dict[filename]
-    else:
-        return writeToImageDict(filename)
+    def writeToImageDict(self, filename):
+        new_name = str(self.getNewNameFromImageDict())
+        self.image_dict[filename] = new_name
+        with open("./learn_data/image_map", "a") as myfile:
+            myfile.write(filename + " " + new_name +"\n")
+        self.loadImageDict()
+        return new_name
+
+    def get_numeral_filename(self, filename):
+        if filename in self.image_dict:
+            return self.image_dict[filename]
+        else:
+            return self.writeToImageDict(filename)
+    def getImageDict(self):
+        return self.image_dict
 
 def get_greyscale_hist_features(im):
     ''' Output 256 features' values of grayscale histogram '''
@@ -55,14 +56,15 @@ if __name__ == '__main__':
     import sys
 
     if len(sys.argv)>1:
+        im_manager = ImageManager()
         filename = sys.argv[1]
         im = cv2.imread(filename)
         gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
         #print get_greyscale_hist_features(im)
-        loadImageDict()
+        im_manager.loadImageDict()
         hist_values_list = get_greyscale_hist_features(gray)
         hist_values_list = map(toString, hist_values_list)
-        numeral_filename = get_numeral_filename(filename.split('/')[-1])
+        numeral_filename = im_manager.get_numeral_filename(filename.split('/')[-1])
         print "Get image " + filename.split('/')[-1]
         print "Write feature to ./learn_data/" + numeral_filename + '.txt'
         with open("./learn_data/" + numeral_filename+'.txt', "a") as myfile:

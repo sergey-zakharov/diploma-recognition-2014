@@ -184,7 +184,7 @@ def manualThresholdTypeSelector():
                     with open(recognize_path+'.txt', "a") as myfile:
                         myfile.write(line + '\n' + threshold_text)
                     #myfile.closed
-                    with open(bin_type_path+'.txt', "a") as myfile:
+                    with open(bin_type_path+'.txt', "r") as myfile:
                         myfile.write(threshold_type_text)
                     #myfile.closed
                 else:
