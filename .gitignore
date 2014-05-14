@@ -1,0 +1,14 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!brightness.py
+!corner_detector.py
+!feature_detector.py
+!hist.py
+!hog.py
+!manual_bin_select.py
+!testClustering.py
+!testingOpenCV.py
+!TODOs.txt
