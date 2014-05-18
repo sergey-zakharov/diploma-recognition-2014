@@ -35,7 +35,7 @@ class ImageManager:
         return self.image_dict
 
 def get_greyscale_hist_features(im):
-    ''' Output 256 features' values of grayscale histogram '''
+    ''' Outputs 64 features' values of grayscale histogram '''
     h = np.zeros((300,256,3))
     if len(im.shape)!=2:
         print "hist_lines applicable only for grayscale images"
