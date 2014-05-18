@@ -10,6 +10,7 @@ is_init_image = True
 threshold_type = cv2.THRESH_BINARY
 threshold_type_name = "cv2.THRESH_BINARY"
 image_dict = {}
+image_directory = ""
 
 def updateImage(threshold):
     global img
@@ -102,21 +103,26 @@ def updateImageForAdaptiveThresChange():
 
 def updateImageDict():
     global image_dict
+    global image_directory
+
      # get image_map file and creat dictionary of name and real file name
-    image_map_file = open('./learn_data/image_map', 'r+')
+    image_map_file = open('./'+image_directory+'/image_map', 'r+')
     for line in image_map_file:
         splitted = line.split(' ')
         image_dict[splitted[0]] = splitted[1].replace('\n', '')
 
 def getNewNameFromImageDict():
     global image_dict
-    return str(int(image_dict[max(image_dict, key=image_dict.get)]) + 1)
+    try:
+        return str(int(image_dict[max(image_dict, key=image_dict.get)]) + 1)
+    except ValueError:
+        return 1
 
 def writeToImageDict(filename):
     global image_dict
     new_name = str(getNewNameFromImageDict())
     image_dict[filename] = new_name
-    with open("./learn_data/image_map", "a") as myfile:
+    with open("./"+image_directory+"/image_map", "a") as myfile:
         myfile.write(filename + " " + new_name +"\n")
     updateImageDict()
     return new_name
@@ -129,6 +135,8 @@ def manualThresholdTypeSelector():
     global threshold_type
     global is_init_image
     global image_dict
+    global image_directory
+
     if len(sys.argv) != 2:
         print "Pass 1 argument - path to image, please"
         print 'there are ' + str(len(sys.argv)) + ' params'
@@ -139,7 +147,10 @@ def manualThresholdTypeSelector():
     cv2.createTrackbar('threshold','image', 0, 255, updateImageForSelector)
     # TODO create several checkboxes for adaptive types
     cv2.imshow('image',img)
-    
+    splitted_path = sys.argv[1].split('/')
+    filename = splitted_path[-1]
+    image_directory = splitted_path[1]
+    print "Image directory", image_directory    
     updateImageDict()
     try:
         print "press 's' to recognize and save "
@@ -150,8 +161,6 @@ def manualThresholdTypeSelector():
             if k == 27:
                 break
             elif k == 115: # 's'
-                splitted_path = sys.argv[1].split('/')
-                filename = splitted_path[-1]
                 ending = ''
                 if is_init_image:
                     ending = "-init"
@@ -163,9 +172,9 @@ def manualThresholdTypeSelector():
                     name = writeToImageDict(filename)
                 else:
                     name = image_dict[filename]
-                save_path = "./learn_data/" + name + ".jpg"
-                bin_type_path = "./learn_data/" + name + "-method" # ex: cv2.THRESH_BINARY 123
-                recognize_path = "./learn_data/" + name + "-recog-result"
+                save_path = "./"+image_directory+"/" + name + ".jpg"
+                bin_type_path = "./"+image_directory+"/" + name + "-method" # ex: cv2.THRESH_BINARY 123
+                recognize_path = "./"+image_directory+"/" + name + "-recog-result"
                 ret = cv2.imwrite(save_path,resimg) #sys.argv[1][:-4] + "-thres.jpg"
                 if ret == 1:
                     print 'Image saved to ' + save_path
@@ -184,7 +193,7 @@ def manualThresholdTypeSelector():
                     with open(recognize_path+'.txt', "a") as myfile:
                         myfile.write(line + '\n' + threshold_text)
                     #myfile.closed
-                    with open(bin_type_path+'.txt', "r") as myfile:
+                    with open(bin_type_path+'.txt', "w+") as myfile:
                         myfile.write(threshold_type_text)
                     #myfile.closed
                 else:
