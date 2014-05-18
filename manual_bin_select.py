@@ -11,6 +11,7 @@ threshold_type = cv2.THRESH_BINARY
 threshold_type_name = "cv2.THRESH_BINARY"
 image_dict = {}
 image_directory = ""
+globalblurRate = 0
 
 def updateImage(threshold):
     global img
@@ -90,7 +91,10 @@ def updateImageForSelector(threshold):
     global threshold_type
 
     global_threshold = threshold = cv2.getTrackbarPos('threshold','image')
-    ret, resimg = cv2.threshold(img, threshold, 255, threshold_type)
+    blur = img
+    if globalblurRate != 0:
+        blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
+    ret, resimg = cv2.threshold(blur, threshold, 255, threshold_type)
     cv2.imshow('image',resimg)
     is_init_image = False
 
@@ -100,6 +104,46 @@ def updateImageForAdaptiveThresChange():
     global global_threshold
     global threshold_type
     global threshold_type_name
+
+def updateImageForOtsuThresChange(otsu_is_on):
+    global img
+    global resimg
+    global global_threshold
+    global threshold_type
+    global threshold_type_name
+    global globalblurRate
+    #otsu_is_on = cv2.getTrackbarPos('threshold','image')
+    if otsu_is_on:
+        threshold_type += cv2.THRESH_OTSU
+        threshold_type_name += "+cv2.THRESH_OTSU"
+    else:
+        threshold_type -= cv2.THRESH_OTSU
+        threshold_type_name.replace("+cv2.THRESH_OTSU", "")
+    blur = img
+    if globalblurRate != 0:
+        blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
+    ret, resimg = cv2.threshold(blur, global_threshold, 255, threshold_type)
+    cv2.imshow('image',resimg)
+    is_init_image = False
+
+def updateImageForGaussianBlurChange(blurRate):
+    global img
+    global resimg
+    global global_threshold
+    global threshold_type
+    global threshold_type_name
+    global globalblurRate
+
+    if blurRate%2 == 1:
+        globalblurRate = blurRate
+        blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
+        ret, resimg = cv2.threshold(blur, global_threshold, 255, threshold_type)
+        cv2.imshow('image',resimg)
+        is_init_image = False
+    elif blurRate == 0:
+        globalblurRate = blurRate
+    else:
+        pass
 
 def updateImageDict():
     global image_dict
@@ -145,6 +189,8 @@ def manualThresholdTypeSelector():
     resimg = img = cv2.imread(sys.argv[1],0)
     cv2.namedWindow('image', cv2.WINDOW_NORMAL)
     cv2.createTrackbar('threshold','image', 0, 255, updateImageForSelector)
+    cv2.createTrackbar('isOtsu','image', 0, 1, updateImageForOtsuThresChange)
+    cv2.createTrackbar('gaussianBlur','image', 3, 21, updateImageForGaussianBlurChange)
     # TODO create several checkboxes for adaptive types
     cv2.imshow('image',img)
     splitted_path = sys.argv[1].split('/')
@@ -164,8 +210,6 @@ def manualThresholdTypeSelector():
                 ending = ''
                 if is_init_image:
                     ending = "-init"
-                else:
-                    ending = "-thres"
                 full_name = filename
                 if full_name not in image_dict:
                     print image_dict
@@ -174,7 +218,7 @@ def manualThresholdTypeSelector():
                     name = image_dict[filename]
                 save_path = "./"+image_directory+"/" + name + ".jpg"
                 bin_type_path = "./"+image_directory+"/" + name + "-method" # ex: cv2.THRESH_BINARY 123
-                recognize_path = "./"+image_directory+"/" + name + "-recog-result"
+                recognize_path = "./"+image_directory+"/" + name + "-recog-result" + ending
                 ret = cv2.imwrite(save_path,resimg) #sys.argv[1][:-4] + "-thres.jpg"
                 if ret == 1:
                     print 'Image saved to ' + save_path
@@ -189,12 +233,13 @@ def manualThresholdTypeSelector():
                     print('-------------------------------')
                     line = '-------------------------------'
                     threshold_text = 'Threshold: ' + threshold_type_name +' ' + str(global_threshold) + "/255"
-                    threshold_type_text = threshold_type_name +' ' + str(global_threshold)
+                    threshold_type_text = threshold_type_name +' ' + str(global_threshold) + "\nblur: " + str(globalblurRate)
                     with open(recognize_path+'.txt', "a") as myfile:
                         myfile.write(line + '\n' + threshold_text)
                     #myfile.closed
-                    with open(bin_type_path+'.txt', "w+") as myfile:
-                        myfile.write(threshold_type_text)
+                    if not is_init_image:
+                        with open(bin_type_path+'.txt', "w+") as myfile:
+                            myfile.write(threshold_type_text)
                     #myfile.closed
                 else:
                     print 'Failed to save'
