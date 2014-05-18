@@ -41,7 +41,7 @@ def get_greyscale_hist_features(im):
         print "hist_lines applicable only for grayscale images"
         #print "so converting image to grayscale for representation"
         im = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
-    hist_item = cv2.calcHist([im],[0],None,[256],[0,256])
+    hist_item = cv2.calcHist([im],[0],None,[64],[0,256])
     #print "hist_item", hist_item
     cv2.normalize(hist_item,hist_item,0,255,cv2.NORM_MINMAX)
     #print "hist_item norm", hist_item
