@@ -96,7 +96,10 @@ def updateImageForSelector(threshold):
     blur = img
     if globalblurRate != 0:
         blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
-    ret, resimg = cv2.threshold(blur, threshold, 255, threshold_type)
+    if threshold_type == cv2.ADAPTIVE_THRESH_MEAN_C:
+        resimg = cv2.adaptiveThreshold(blur, 255, threshold_type, cv2.THRESH_BINARY, 7, threshold)
+    else:
+        ret, resimg = cv2.threshold(blur, threshold, 255, threshold_type)
     cv2.imshow('image',resimg)
     is_init_image = False
 
@@ -120,7 +123,7 @@ def updateImageForThresAdaptiveChange(is_adaptive_on):
     if globalblurRate != 0:
         blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
     print threshold_type_name
-    resimg = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    resimg = cv2.adaptiveThreshold(blur, 255, threshold_type, cv2.THRESH_BINARY, 5, 5)
     cv2.imshow('image',resimg)
     is_init_image = False
 
@@ -142,7 +145,10 @@ def updateImageForOtsuThresChange(otsu_is_on):
     blur = img
     if globalblurRate != 0:
         blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
-    ret, resimg = cv2.threshold(blur, global_threshold, 255, threshold_type)
+    if threshold_type == cv2.ADAPTIVE_THRESH_GAUSSIAN_C:
+        resimg = cv2.adaptiveThreshold(blur, 255, threshold_type, cv2.THRESH_BINARY, 5, global_threshold)
+    else:
+        ret, resimg = cv2.threshold(blur, threshold, 255, threshold_type)
     cv2.imshow('image',resimg)
     is_init_image = False
 
@@ -154,16 +160,20 @@ def updateImageForGaussianBlurChange(blurRate):
     global threshold_type_name
     global globalblurRate
 
+    blur=img
     if blurRate%2 == 1:
         globalblurRate = blurRate
         blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
-        ret, resimg = cv2.threshold(blur, global_threshold, 255, threshold_type)
-        cv2.imshow('image',resimg)
-        is_init_image = False
     elif blurRate == 0:
         globalblurRate = blurRate
     else:
         pass
+    if threshold_type == cv2.ADAPTIVE_THRESH_GAUSSIAN_C:
+        resimg = cv2.adaptiveThreshold(blur, 255, threshold_type, cv2.THRESH_BINARY, 5, global_threshold)
+    else:
+        ret, resimg = cv2.threshold(blur, global_threshold, 255, threshold_type)
+    cv2.imshow('image',resimg)
+    is_init_image = False
 
 def updateImageDict():
     global image_dict
