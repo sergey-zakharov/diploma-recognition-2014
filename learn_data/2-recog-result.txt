@@ -1,8 +1,6 @@
-DISCOVER THE DARK SIDE
+SALE.
 
-hi
-
- 
+19
 
 -------------------------------
-Threshold: cv2.THRESH_BINARY 177/255
+Threshold: cv2.THRESH_BINARY 112/255

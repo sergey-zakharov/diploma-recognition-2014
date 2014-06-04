@@ -1,1 +1,3 @@
-cv2.THRESH_BINARY 77
+cv2.THRESH_BINARY 136
+blur: 0
+inverted: 0
