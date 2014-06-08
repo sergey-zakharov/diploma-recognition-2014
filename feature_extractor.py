@@ -55,6 +55,41 @@ def get_greyscale_hist_features(im):
 def toString(element):
     return str(element)
 
+def countPointsWithNeighboursOfSameColour(image, num):
+    i = 1
+    image = image.tolist()
+    total = len(image[0])*len(image)
+    print "Total points:", total
+    result = 0
+    while i < len(image)-1:
+        j = 1
+        line = image[i]
+        while j < len(line)-1:
+            count = 0
+            if line[j-1]==line[j]: # left
+                count+=1
+            if line[j+1]==line[j]: # right
+                count+=1
+            if image[i-1][j]==line[j]: # top
+                count+=1
+            if image[i+1][j]==line[j]: # bottom
+                count+=1
+            if image[i-1][j-1]==line[j]: # top left
+                count+=1
+            if image[i-1][j+1]==line[j]: # top right
+                count+=1
+            if image[i+1][j-1]==line[j]: # bottom left
+                count+=1
+            if image[i+1][j+1]==line[j]: # bottom right
+                count+=1
+            if count >= num:
+                result+=1
+            j+=1
+        i+=1
+    return result, total
+
+
+
 if __name__ == '__main__':
     import sys
 
@@ -62,6 +97,9 @@ if __name__ == '__main__':
         im_manager = ImageManager("./learn_data/image_map")
         filename = sys.argv[1]
         im = cv2.imread(filename)
+        n = 1
+        num, tot = countPointsWithNeighboursOfSameColour(im, n)
+        print "Percent of points with same", n , "neighbours:", "{0:.2f}".format(float(num)/float(tot)*100), "%"
         gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
         #print get_greyscale_hist_features(im)
         im_manager.loadImageDict()
@@ -73,6 +111,6 @@ if __name__ == '__main__':
         with open("./learn_data/" + numeral_filename+'.txt', "a") as myfile:
             myfile.write('\n'.join((hist_values_list)))
     else:
-        print "usage : python hist.py <image_file>"
+        print "usage : python feature_extractor.py <image_file>"
 
 
