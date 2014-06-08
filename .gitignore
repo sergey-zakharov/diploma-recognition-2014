@@ -6,6 +6,7 @@
 !brightness.py
 !corner_detector.py
 !feature_detector.py
+!knnClassifier.py
 !hist.py
 !hog.py
 !manual_bin_select.py
