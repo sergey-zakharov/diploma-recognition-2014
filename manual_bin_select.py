@@ -10,8 +10,8 @@ global_threshold = 0
 is_init_image = True
 threshold_type = cv2.THRESH_BINARY
 threshold_type_before_switch = cv2.THRESH_BINARY
-threshold_type_name = "cv2.THRESH_BINARY"
-threshold_type_name_before_switch = "cv2.THRESH_BINARY"
+threshold_type_name = "0" # 0 - "cv2.THRESH_BINARY", 1 - "cv2.ADAPTIVE_THRESH_MEAN_C"
+threshold_type_name_before_switch = '0' #"cv2.THRESH_BINARY"
 image_dict = {}
 image_directory = ""
 globalblurRate = 0
@@ -128,7 +128,7 @@ def updateImageForThresAdaptiveChange(is_adaptive_on):
         threshold_type_before_switch = threshold_type
         threshold_type = cv2.ADAPTIVE_THRESH_MEAN_C
         threshold_type_name_before_switch = threshold_type_name
-        threshold_type_name = "ADAPTIVE_THRESH_MEAN_C"
+        threshold_type_name = "1" # "cv2.ADAPTIVE_THRESH_MEAN_C"
     else:
         threshold_type = threshold_type_before_switch
         threshold_type_name = threshold_type_name_before_switch

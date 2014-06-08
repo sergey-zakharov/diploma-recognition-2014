@@ -8,6 +8,9 @@ from subprocess import call
 if __name__ == '__main__':
 	# training
 	cv2.namedWindow('resultImage', cv2.WINDOW_NORMAL)
+	regressor = cl.Regression()
+	regressor.train()
+
 	classifier = cl.Classifier()
 	classifier.train()
 
