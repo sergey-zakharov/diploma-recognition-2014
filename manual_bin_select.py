@@ -24,8 +24,8 @@ def updateImage(threshold):
     global is_init_image
     global globalblurRate
 
-    global_threshold = threshold = cv2.getTrackbarPos('threshold','image')
-    param = cv2.getTrackbarPos('param','image')
+    global_threshold = threshold = cv2.getTrackbarPos('block size','image')
+    param = cv2.getTrackbarPos('const','image')
     #ret, resimg = cv2.threshold(img,threshold,255,cv2.THRESH_BINARY)
     blur = img
     if globalblurRate != 0:
@@ -47,8 +47,8 @@ def thresholdSwitcher():
         return
     resimg = img = cv2.imread(sys.argv[1],0)
     cv2.namedWindow('image', cv2.WINDOW_NORMAL)
-    cv2.createTrackbar('threshold','image',0, 10000,updateImage)
-    cv2.createTrackbar('param','image',0, 1000,updateImage)
+    cv2.createTrackbar('block size','image',0, 500, updateImage)
+    cv2.createTrackbar('const','image',0, 100, updateImage)
     cv2.createTrackbar('gaussianBlur','image', 3, 21, updateImageForGaussianBlurChange)
     cv2.imshow('image',img)
     try:
@@ -346,6 +346,5 @@ def manualThresholdTypeSelector():
         cv2.destroyAllWindows()
     cv2.destroyAllWindows()
 
-#testSwitchersExample()
 thresholdSwitcher()
 #manualThresholdTypeSelector()

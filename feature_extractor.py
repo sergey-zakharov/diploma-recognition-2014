@@ -59,7 +59,7 @@ def countPointsWithNeighboursOfSameColour(image, num):
     i = 1
     image = image.tolist()
     total = len(image[0])*len(image)
-    print "Total points:", total
+    #print "Total points:", total
     result = 0
     while i < len(image)-1:
         j = 1
