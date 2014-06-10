@@ -16,6 +16,7 @@ if __name__ == '__main__':
 	cv2.namedWindow('resultImage', cv2.WINDOW_NORMAL)
 	classifier = cl.Classifier()
 	classifier.train()
+	#classifier.initAndTrainNeuralNetwork()
 
 	# testing
 	file_name = sys.argv[1]
@@ -33,6 +34,7 @@ if __name__ == '__main__':
 		regressor = cl.Regression()
 		regressor.train()
 		# get threshold
+		
 		thres = int(regressor.test(im))
 		print thres
 		# prepare image
