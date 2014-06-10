@@ -1,0 +1,12 @@
+ 
+   
+ 
+
+INAL
+
+learance
+
+BURTON
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 138/255

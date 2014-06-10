@@ -1,0 +1,6 @@
+FIRE EXIT ‘
+
+Keep clear
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 208/255

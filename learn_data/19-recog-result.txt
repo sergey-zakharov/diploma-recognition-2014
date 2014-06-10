@@ -1,0 +1,11 @@
+ 
+
+he
+
+Linen Factor
+
+   
+ 
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 171/255

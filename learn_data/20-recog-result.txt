@@ -1,0 +1,10 @@
+i _ _.
+
+ICE CREAM T
+
+ 
+
+WW
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 95/255

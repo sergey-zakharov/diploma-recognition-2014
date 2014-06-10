@@ -1,0 +1,7 @@
+ starting university
+this year?
+
+ 
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 0/255

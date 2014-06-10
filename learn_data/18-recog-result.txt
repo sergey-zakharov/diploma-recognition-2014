@@ -1,0 +1,9 @@
+SPRINKLER. L
+VALVE  
+CHAMBER
+
+    
+ 
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 168/255

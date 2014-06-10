@@ -1,0 +1,3 @@
+0 171
+blur: 0
+inverted: 0

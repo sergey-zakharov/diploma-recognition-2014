@@ -1,0 +1,4 @@
+% =33 fl’: III IJF Laﬁ
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 176/255

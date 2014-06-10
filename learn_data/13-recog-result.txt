@@ -1,0 +1,7 @@
+the eyecare clinic
+Contact lens centre
+
+ 
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 133/255

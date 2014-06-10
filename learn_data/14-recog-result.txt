@@ -1,0 +1,10 @@
+‘I
+_ ﬁamous
+ for our
+
+fish & chips
+
+ 
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 184/255

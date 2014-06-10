@@ -1,0 +1,7 @@
+L
+
+__ _ __ _
+HEALTHY COLCHESTER 2000
+
+-------------------------------
+Threshold: cv2.THRESH_BINARY 62/255

@@ -17,4 +17,6 @@
 !*.txt
 !*.jpg
 !*.JPG
+!/test_data/
+!/learn_data/
 
