@@ -15,6 +15,8 @@ threshold_type_name_before_switch = '0' #"cv2.THRESH_BINARY"
 image_dict = {}
 image_directory = ""
 globalblurRate = 0
+ada_block_size = 5
+param = 5
 isInverted = False
 
 def updateImage(threshold):
@@ -23,14 +25,17 @@ def updateImage(threshold):
     global global_threshold
     global is_init_image
     global globalblurRate
+    global ada_block_size
+    global param
 
-    global_threshold = threshold = cv2.getTrackbarPos('block size','image')
+    ada_block_size = cv2.getTrackbarPos('block size','image')
     param = cv2.getTrackbarPos('const','image')
     #ret, resimg = cv2.threshold(img,threshold,255,cv2.THRESH_BINARY)
     blur = img
     if globalblurRate != 0:
         blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
-    resimg = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, threshold, param)
+    threshold_type_name = "1"
+    resimg = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, ada_block_size, param)
     cv2.imshow('image',resimg)
     is_init_image = False
 
@@ -108,10 +113,8 @@ def updateImageForSelector(threshold):
         blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
     if isInverted:
         blur = (255 - blur)
-    #print threshold_type
-    #if threshold_type == cv2.ADAPTIVE_THRESH_MEAN_C:
-    #    resimg = cv2.adaptiveThreshold(blur, 255, threshold_type, cv2.THRESH_BINARY, 7, threshold)
-    #else:
+    
+    threshold_type_name = "0"
     ret, resimg = cv2.threshold(blur, threshold, 255, threshold_type)
     cv2.imshow('image',resimg)
     is_init_image = False
@@ -278,13 +281,21 @@ def manualThresholdTypeSelector():
         print 'Params: '+ str(sys.argv)
         return
     resimg = img = cv2.imread(sys.argv[1],0)
+    
     cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
-    cv2.createTrackbar('threshold','image', 0, 255, updateImageForSelector)
-    cv2.createTrackbar('invert','image', 0, 1, updateInvertImage)
-    #cv2.createTrackbar('isOtsu','image', 0, 1, updateImageForOtsuThresChange)
+
+    # for global binarization
+    cv2.createTrackbar('global: threshold','image', 0, 255, updateImageForSelector)
     cv2.createTrackbar('gaussianBlur','image', 3, 21, updateImageForGaussianBlurChange)
+    
+    # for adaptive binarization
+    cv2.createTrackbar('adapt.: block size','image',0, 500, updateImage)
+    cv2.createTrackbar('adapt.: const','image',0, 100, updateImage)
+
+    #cv2.createTrackbar('invert','image', 0, 1, updateInvertImage)
+    #cv2.createTrackbar('isOtsu','image', 0, 1, updateImageForOtsuThresChange)
     #cv2.createTrackbar('adaptiveThres','image', 0, 1, updateImageForThresAdaptiveChange)
-    # TODO create several checkboxes for adaptive types
+    
     cv2.imshow('image',img)
     splitted_path = sys.argv[1].split('/')
     filename = splitted_path[-1]
@@ -332,7 +343,8 @@ def manualThresholdTypeSelector():
                     print('-------------------------------')
                     line = '-------------------------------'
                     threshold_text = 'Threshold: ' + threshold_type_name +' ' + str(global_threshold) + "/255"
-                    threshold_type_text = threshold_type_name +' ' + str(global_threshold) + "\nblur: " + str(globalblurRate) + "\ninverted: " + str(int(isInverted))
+                    threshold_type_text = threshold_type_name +' ' + str(global_threshold) + ' ' + str(ada_block_size) + ' ' + str(param) +\
+                                        "\nblur: " + str(globalblurRate) + "\ninverted: " + str(int(isInverted))
                     with open(recognize_path+'.txt', "a") as myfile:
                         myfile.write(line + '\n' + threshold_text)
                     #myfile.closed
@@ -346,5 +358,8 @@ def manualThresholdTypeSelector():
         cv2.destroyAllWindows()
     cv2.destroyAllWindows()
 
-thresholdSwitcher()
-#manualThresholdTypeSelector()
+#Test
+#thresholdSwitcher()
+
+#Work
+manualThresholdTypeSelector()
