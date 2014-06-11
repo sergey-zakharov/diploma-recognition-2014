@@ -50,3 +50,8 @@ TODOS
 4. Запуск основного конвейера
 	python ./main.py (./test_data/originals/имя_файла с изображением) 
 
+*-method.txt:
+Тип глобальное_смещение adapt_block_size adapt_const
+0 55 55 75
+blur: 0
+inverted: 0

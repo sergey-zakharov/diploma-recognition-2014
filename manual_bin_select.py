@@ -27,9 +27,10 @@ def updateImage(threshold):
     global globalblurRate
     global ada_block_size
     global param
+    global threshold_type_name
 
-    ada_block_size = cv2.getTrackbarPos('block size','image')
-    param = cv2.getTrackbarPos('const','image')
+    ada_block_size = cv2.getTrackbarPos('adapt.: block size','image')
+    param = cv2.getTrackbarPos('adapt.: const','image')
     #ret, resimg = cv2.threshold(img,threshold,255,cv2.THRESH_BINARY)
     blur = img
     if globalblurRate != 0:
@@ -107,15 +108,15 @@ def updateImageForSelector(threshold):
     global threshold_type
     global isInverted
 
-    global_threshold = threshold = cv2.getTrackbarPos('threshold','image')
+    global_threshold = threshold = cv2.getTrackbarPos('global: threshold','image')
     blur = img
     if globalblurRate != 0:
         blur = cv2.GaussianBlur(img,(globalblurRate, globalblurRate),0)
     if isInverted:
         blur = (255 - blur)
-    
     threshold_type_name = "0"
-    ret, resimg = cv2.threshold(blur, threshold, 255, threshold_type)
+    print threshold
+    ret, resimg = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY)
     cv2.imshow('image',resimg)
     is_init_image = False
 
@@ -185,11 +186,11 @@ def updateImageForGaussianBlurChange(blurRate):
         globalblurRate = blurRate
     else:
         pass
-    if threshold_type == cv2.ADAPTIVE_THRESH_GAUSSIAN_C:
-        resimg = cv2.adaptiveThreshold(blur, 255, threshold_type, cv2.THRESH_BINARY, 5, global_threshold)
-    else:
-        ret, resimg = cv2.threshold(blur, global_threshold, 255, threshold_type)
-    cv2.imshow('image',resimg)
+    #if threshold_type == cv2.ADAPTIVE_THRESH_GAUSSIAN_C:
+    #    resimg = cv2.adaptiveThreshold(blur, 255, threshold_type, cv2.THRESH_BINARY, 5, global_threshold)
+    #else:
+    #    ret, resimg = cv2.threshold(blur, global_threshold, 255, threshold_type)
+    # cv2.imshow('image',resimg)
     is_init_image = False
 
 def updateImageDict():
@@ -282,7 +283,7 @@ def manualThresholdTypeSelector():
         return
     resimg = img = cv2.imread(sys.argv[1],0)
     
-    cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
+    cv2.namedWindow('image', cv2.WINDOW_NORMAL) #cv2.WINDOW_AUTOSIZE
 
     # for global binarization
     cv2.createTrackbar('global: threshold','image', 0, 255, updateImageForSelector)
