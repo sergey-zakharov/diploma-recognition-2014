@@ -104,7 +104,9 @@ if __name__ == '__main__':
         #print get_greyscale_hist_features(im)
         im_manager.loadImageDict()
         hist_values_list = get_greyscale_hist_features(gray)
+        hist_values_list.append(float(num)/float(tot)*100)
         hist_values_list = map(toString, hist_values_list)
+        print hist_values_list
         numeral_filename = im_manager.get_numeral_filename(filename.split('/')[-1])
         print "Get image " + filename.split('/')[-1]
         print "Write feature to ./learn_data/" + numeral_filename + '.txt'

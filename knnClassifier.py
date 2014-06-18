@@ -21,34 +21,36 @@ class Classifier:
 			hist_values_list = fe.get_greyscale_hist_features(gray)
 			hist_values_list = map(np.float32,hist_values_list)
 			feature_values += hist_values_list
-			# same neighbours feature
+			#same neighbours feature
 			num = 3
 			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
 			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
 			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values += grey_same_neighbours_perc
+			feature_values.append(grey_same_neighbours_perc)
 			num = 4
 			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
 			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
 			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values += grey_same_neighbours_perc
+			feature_values.append(grey_same_neighbours_perc)
 			num = 7
 			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
 			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
 			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values += grey_same_neighbours_perc
+			feature_values.append(grey_same_neighbours_perc)
 
 			samples.append(np.array(feature_values))
+			print feature_values
 
 			with open("./learn_data/" + num_name+'-method.txt', "r") as myfile:
 				splitted = myfile.readline().replace('\n', '').split(" ")
 				print "./learn_data/" + num_name+'.txt', splitted
 				responses.append(np.float32(splitted[0]))
+		#print samples
 		return samples, responses
 
 	def initAndTrainNeuralNetwork(self):
 		inputs_f, targets_f = self.getSamplesAndResponsesFromFiles()
-		#print "targets_f", targets_f
+		# print "targets_f", targets_f
 		# The number of elements in an input vector, i.e. the number of nodes
 		# in the input layer of the network.
 		ninputs = len(inputs_f[0])
@@ -59,7 +61,7 @@ class Classifier:
 
 		# We should have one output for each input vector (i.e., the digits
 		# 0-9).
-		noutput = len(inputs_f)
+		noutput = 1
 
 		# Create arrays for input and output. OpenCV neural networks expect
 		# each row to correspond to a single input or target output vector.
@@ -199,17 +201,17 @@ class Regression:
 			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
 			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
 			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values += grey_same_neighbours_perc
+			feature_values.append(grey_same_neighbours_perc)
 			num = 4
 			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
 			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
 			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values += grey_same_neighbours_perc
+			feature_values.append(grey_same_neighbours_perc)
 			num = 7
 			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
 			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
 			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values += grey_same_neighbours_perc
+			feature_values.append(grey_same_neighbours_perc)
 
 			samples.append(np.array(feature_values))
 			
