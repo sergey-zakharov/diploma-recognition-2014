@@ -6,50 +6,9 @@ import feature_extractor as fe
 class Classifier:
 	knn = []
 	nnet = []
-	def getSamplesAndResponsesFromFiles(self):
-		image_manager = fe.ImageManager("./learn_data/image_map")
-		image_manager.loadImageDict()
-		im_dict = image_manager.getImageDict()
-		samples = []
-		responses = []
-		for filename, num_name in im_dict.items():
-			im = cv2.imread("./learn_data/originals/" + filename)
-			gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
-			
-			feature_values = []
-			# histogram features
-			hist_values_list = fe.get_greyscale_hist_features(gray)
-			hist_values_list = map(np.float32,hist_values_list)
-			feature_values += hist_values_list
-			#same neighbours feature
-			num = 3
-			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
-			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
-			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values.append(grey_same_neighbours_perc)
-			num = 4
-			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
-			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
-			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values.append(grey_same_neighbours_perc)
-			num = 7
-			grey_same_neighbours, total_points = fe.countPointsWithNeighboursOfSameColour(gray, num)
-			grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
-			grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
-			feature_values.append(grey_same_neighbours_perc)
-
-			samples.append(np.array(feature_values))
-			print feature_values
-
-			with open("./learn_data/" + num_name+'-method.txt', "r") as myfile:
-				splitted = myfile.readline().replace('\n', '').split(" ")
-				print "./learn_data/" + num_name+'.txt', splitted
-				responses.append(np.float32(splitted[0]))
-		#print samples
-		return samples, responses
-
+	
 	def initAndTrainNeuralNetwork(self):
-		inputs_f, targets_f = self.getSamplesAndResponsesFromFiles()
+		inputs_f, targets_f = getSamplesAndResponsesFromFiles()
 		# print "targets_f", targets_f
 		# The number of elements in an input vector, i.e. the number of nodes
 		# in the input layer of the network.
@@ -134,12 +93,6 @@ class Classifier:
 		num_correct = np.sum( true_labels == pred_labels )
 
 		print 'ran for %d iterations' % num_iter
-		#print 'inputs:'
-		#print inputs
-		#print 'targets:'
-		#print targets
-		#print 'predictions:'
-		#print predictions
 		print 'sum sq. err:', sse
 		print 'accuracy:', float(num_correct) / len(true_labels)
 
@@ -165,17 +118,17 @@ class Classifier:
 	def getSamplesToPredict(self):
 		pass
 
-	def train(samples, responses):
-		print "Train classifier"
+	def train(self, samples, responses):
 		self.knn = cv2.KNearest()
-		self.knn.train(np.array(samples), np.array(responses), isRegression=True)
+		self.knn.train(np.array(samples), responses, isRegression=True)
 
 	def test(self, sample_img):
 		k = 10
 		gray = cv2.cvtColor(sample_img,cv2.COLOR_BGR2GRAY)
-		sample = fe.get_greyscale_hist_features(gray)
+		sample = fe.get_features(gray)
 		sample = np.array(sample,np.float32).reshape((1,len(sample)))
-		return self.knn.find_nearest(sample, k)[0]
+		nearest = self.knn.find_nearest(sample, k)
+		return nearest[0]
 
 class Regression:
 	knn = []
@@ -183,17 +136,17 @@ class Regression:
 	def getSamplesToPredict(self):
 		pass
 
-	def train(samples, responses):
-		print "Train regression"
+	def train(self, samples, responses):
 		self.knn = cv2.KNearest()
 		self.knn.train(np.array(samples), np.array(responses), isRegression=True)
 
 	def test(self, sample_img):
 		k = 10
 		gray = cv2.cvtColor(sample_img,cv2.COLOR_BGR2GRAY)
-		sample = fe.get_greyscale_hist_features(gray)
+		sample = fe.get_features(gray)
 		sample = np.array(sample,np.float32).reshape((1,len(sample)))
 		return self.knn.find_nearest(sample, k)[0]
+
 
 def getSamplesAndResponsesFromFiles():
 	image_manager = fe.ImageManager("./learn_data/image_map")
@@ -201,7 +154,10 @@ def getSamplesAndResponsesFromFiles():
 	im_dict = image_manager.getImageDict()
 	samples = []
 	responses = []
+	count = 0
 	for filename, num_name in im_dict.items():
+		count += 1
+		print "\r" + str(count) + " of " + str(len(im_dict))
 		im = cv2.imread("./learn_data/originals/" + filename)
 		gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
 		
@@ -232,8 +188,8 @@ def getSamplesAndResponsesFromFiles():
 		with open("./learn_data/" + num_name+'-method.txt', "r") as myfile:
 			splitted = myfile.readline().replace('\n', '').split(" ")
 			print "./learn_data/" + num_name+'.txt', splitted
-			if splitted[0] == "0":
-				responses.append(np.float32(splitted[1]))
+			array = np.array([np.float32(splitted[0]), np.float32(splitted[1]), np.float32(splitted[2]), np.float32(splitted[3])]) 
+			responses.append(array)
 	return samples, responses
 
 if __name__ == '__main__':

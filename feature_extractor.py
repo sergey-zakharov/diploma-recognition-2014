@@ -88,7 +88,31 @@ def countPointsWithNeighboursOfSameColour(image, num):
         i+=1
     return result, total
 
+def get_features(gray):
+    
+    feature_values = []
+    # histogram features
+    hist_values_list = get_greyscale_hist_features(gray)
+    hist_values_list = map(np.float32,hist_values_list)
+    feature_values += hist_values_list
+    #same neighbours feature
+    num = 3
+    grey_same_neighbours, total_points = countPointsWithNeighboursOfSameColour(gray, num)
+    grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
+    grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
+    feature_values.append(grey_same_neighbours_perc)
+    num = 4
+    grey_same_neighbours, total_points = countPointsWithNeighboursOfSameColour(gray, num)
+    grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
+    grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
+    feature_values.append(grey_same_neighbours_perc)
+    num = 7
+    grey_same_neighbours, total_points = countPointsWithNeighboursOfSameColour(gray, num)
+    grey_same_neighbours_perc = float(grey_same_neighbours)/float(total_points)*100
+    grey_same_neighbours_perc = np.float32(grey_same_neighbours_perc)
+    feature_values.append(grey_same_neighbours_perc)
 
+    return feature_values
 
 if __name__ == '__main__':
     import sys
