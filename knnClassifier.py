@@ -30,7 +30,7 @@ class Classifier:
 		targets = -1 * np.ones( (len(inputs_f), len(inputs_f)), 'float' )
 		# Convert input strings to binary zeros and ones, and set the output
 		# array to all -1's with ones along the diagonal.
-		print len(inputs)
+		#print len(inputs)
 		#print "inputs_f", inputs_f
 		#print "targets_f", targets_f
 		#print "targets", targets
@@ -188,7 +188,10 @@ def getSamplesAndResponsesFromFiles():
 		with open("./learn_data/" + num_name+'-method.txt', "r") as myfile:
 			splitted = myfile.readline().replace('\n', '').split(" ")
 			print "./learn_data/" + num_name+'.txt', splitted
-			array = np.array([np.float32(splitted[0]), np.float32(splitted[1]), np.float32(splitted[2]), np.float32(splitted[3])]) 
+			if len(splitted) == 4:
+				array = np.array([np.float32(splitted[0]), np.float32(splitted[1]), np.float32(splitted[2]), np.float32(splitted[3])]) 
+			else:
+				array = np.array([np.float32(splitted[0]), np.float32(splitted[1]), 0, 0]) 
 			responses.append(array)
 	return samples, responses
 

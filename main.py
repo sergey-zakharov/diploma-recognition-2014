@@ -4,6 +4,7 @@ import cv2
 import sys
 import os
 import numpy as np
+import timeit
 
 from subprocess import call
 
@@ -13,20 +14,22 @@ if __name__ == '__main__':
 	adabtive_bin_regressor_2 = None
 	resimg = None
 
+	start = timeit.default_timer()
+
 	# train classifier
 	print "Creating classifier"
 	classifier = cl.Classifier()
 	print "Getting samples and responses"
 	samples, responses = cl.getSamplesAndResponsesFromFiles()
 	print "Training classifier"
-	print responses
+	#print responses
 	classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
 	#classifier.initAndTrainNeuralNetwork()
 
 	for filename in os.listdir('./test_data/originals/'):
 		if filename.split(".")[1] == 'jpg':
 			# testing
-			print "Testing:", filename
+			print "\nTesting:", filename
 			file_name = filename
 			file_raw_name = file_name.split('.')[-2].split('/')[-1]
 			test_filename = "./test_data/originals/" + file_raw_name + ".jpg"
@@ -36,7 +39,7 @@ if __name__ == '__main__':
 			im = cv2.imread(test_filename)
 			
 			meth = str(int(classifier.test(im)))
-			print "meth =", meth
+			print "Method: ", meth
 			if meth == "0": # cv2.THRESH_BINARY global binarization
 				# train regressor
 				print "Global binarization selected: going to find threshold"
@@ -56,7 +59,7 @@ if __name__ == '__main__':
 				# get threshold
 				
 				thres = int(global_bin_regressor.test(im))
-				print thres
+				print "global threshold: ", thres
 				# prepare image
 				gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
 				ret, resimg = cv2.threshold(gray, thres, 255, cv2.THRESH_BINARY)
@@ -113,12 +116,7 @@ if __name__ == '__main__':
 
 			print "Recognized text:", recognized_text
 
-	while(1):
-		k = cv2.waitKey(1) #& 0xFF
-		if k == 27:
-			break
-	cv2.destroyAllWindows()
-
-	
+	stop = timeit.default_timer()
+	print "Overall time:", str(stop - start)
 
 
