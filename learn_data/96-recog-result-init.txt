@@ -1,0 +1,6 @@
+I A I O I A 1 O I I II
+
+GAEIER
+
+-------------------------------
+Threshold: 0 0/255

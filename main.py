@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	im = cv2.imread(test_filename)
 	
 	meth = str(classifier.test(im))
-	if meth == "0":
+	if meth == "0": # cv2.THRESH_BINARY global binarization
 		# train regressor
 		print "Global binarization selected: going to find threshold"
 		regressor = cl.Regression()

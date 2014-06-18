@@ -1,0 +1,6 @@
+jg: ,
+ESPAISIOL-ING~LES
+INGLES-ESPANOL
+
+-------------------------------
+Threshold: 0 0/255

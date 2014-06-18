@@ -1,0 +1,7 @@
+3
+
+ESPAISIOL-ING~LES
+INGLES-ESPANOL
+
+-------------------------------
+Threshold: 0 196/255

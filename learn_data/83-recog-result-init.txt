@@ -1,0 +1,11 @@
+V Gt. Yarm qth
+Ipswich
+Harwich
+
+E
+
+ L 133
+K Clacton A
+
+-------------------------------
+Threshold: 0 0/255
