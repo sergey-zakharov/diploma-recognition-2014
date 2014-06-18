@@ -2,6 +2,7 @@ import Levenshtein
 import feature_extractor as fe
 
 import re
+import datetime
 
 # TODO throuth garbage in 'recognized'
 def getRatio(original, recognized):
@@ -75,10 +76,17 @@ def checkManualSelectionRecognitionQuality():
 
 def checkMachineSelectionRecognitionQuality():
 	# for each file in test_data/image_map try to get files from gt (prepropcessing) and result of machine-setted recognition, and pass them into getRatio
-	baseCheckRecognitionQuality("")
+	return baseCheckRecognitionQuality("-rec.txt", result_file_prefix='./test_data/', ground_file_prefix='./learn_data/originals/gt/gt_', im_manager_filename="./test_data/image_map")
 
 if __name__ == '__main__':
 	#print getRatio(unicode("Airtours holidays"), unicode("Airtours olidays"))
-	print "\nOverall init recognition quality: "+ str(checkInitRecognitionQuality()) + "%"
-	print "\nOverall manual recognition quality: "+ str(checkManualSelectionRecognitionQuality()) + "%"
+	results = "Overall init recognition quality: "+ str(checkInitRecognitionQuality()) + "%\n" +\
+	"Overall manual recognition quality: "+ str(checkManualSelectionRecognitionQuality()) + "%\n"+\
+	"Overall machine recognition quality: "+ str(checkMachineSelectionRecognitionQuality()) + "%"
+	now = datetime.datetime.now()
+
+	with open('./results.txt', "a") as myfile:
+		myfile.write("\n" + str(now) + ":\n" + results + '\n')
+	print "\n" + str(now)
+	print results
 	

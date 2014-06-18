@@ -17,6 +17,7 @@
 !neural_test.py
 !test_binarizations.py
 !quality_assessment.py
+!results.txt
 !*.txt
 !*.jpg
 !*.JPG

@@ -1,0 +1,19 @@
+2014-06-18 21:38:34.646230:
+Overall init recognition quality: 25.7770046205%
+Overall manual recognition quality: 50.261182815%
+Overall machine recognition quality: 0.854700854701%
+
+2014-06-18 21:38:48.556573:
+Overall init recognition quality: 25.7770046205%
+Overall manual recognition quality: 50.261182815%
+Overall machine recognition quality: 0.854700854701%
+
+2014-06-18 21:39:25.953148:
+Overall init recognition quality: 25.7770046205%
+Overall manual recognition quality: 50.261182815%
+Overall machine recognition quality: 0.854700854701%
+
+2014-06-18 21:39:37.446662:
+Overall init recognition quality: 25.7770046205%
+Overall manual recognition quality: 50.261182815%
+Overall machine recognition quality: 0.854700854701%
