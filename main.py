@@ -11,11 +11,11 @@ if __name__ == '__main__':
 		print 'there are ' + str(len(sys.argv)) + ' params'
 		print 'Params: '+ str(sys.argv)
 		exit(0)
-
+	samples, responses = cl.getSamplesAndResponsesFromFiles()
 	# train classifier
 	cv2.namedWindow('resultImage', cv2.WINDOW_NORMAL)
 	classifier = cl.Classifier()
-	classifier.train()
+	classifier.train(samples, responses)
 	#classifier.initAndTrainNeuralNetwork()
 
 	# testing
@@ -32,7 +32,13 @@ if __name__ == '__main__':
 		# train regressor
 		print "Global binarization selected: going to find threshold"
 		regressor = cl.Regression()
-		regressor.train()
+		loc_samples = []
+		loc_responses = []
+		for i, response in enumerate(responses):
+			if response[0] == "0"
+				loc_samples.append(samples[i])
+				loc_samples.append(response[1])
+		regressor.train(loc_samples, loc_responses)
 		# get threshold
 		
 		thres = int(regressor.test(im))
@@ -42,7 +48,18 @@ if __name__ == '__main__':
 		ret, resimg = cv2.threshold(gray, thres, 255, cv2.THRESH_BINARY)
 	elif meth == "1": # "cv2.ADAPTIVE_THRESH_MEAN_C"
 		print "Adaptive threshold by mean selected: going to find threshold"
-		resimg = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 5, 5)
+		loc_samples = []
+		loc_responses = []
+		for i, response in enumerate(responses):
+			if response[0] == "1"
+				loc_samples.append(samples[i])
+				loc_samples.append(np.array(response[2], response[3]))
+		regressor.train(loc_samples, loc_responses)
+
+		answer = regressor.test(im)
+		
+		gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
+		resimg = cv2.adaptiveThreshold(gey, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, answer[0], answer[1])
 
 	cv2.imshow('resultImage',resimg)
 
