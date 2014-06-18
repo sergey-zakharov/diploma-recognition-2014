@@ -37,7 +37,7 @@ if __name__ == '__main__':
 		for i, response in enumerate(responses):
 			if response[0] == "0"
 				loc_samples.append(samples[i])
-				loc_samples.append(response[1])
+				loc_responses.append(response[1])
 		regressor.train(loc_samples, loc_responses)
 		# get threshold
 		
@@ -48,18 +48,24 @@ if __name__ == '__main__':
 		ret, resimg = cv2.threshold(gray, thres, 255, cv2.THRESH_BINARY)
 	elif meth == "1": # "cv2.ADAPTIVE_THRESH_MEAN_C"
 		print "Adaptive threshold by mean selected: going to find threshold"
+		
 		loc_samples = []
-		loc_responses = []
+		loc_responses_1 = []
+		loc_responses_2 = []
+
 		for i, response in enumerate(responses):
 			if response[0] == "1"
 				loc_samples.append(samples[i])
-				loc_samples.append(np.array(response[2], response[3]))
-		regressor.train(loc_samples, loc_responses)
+				loc_responses_1.append(np.array(response[2]))
+				loc_responses_2.append(np.array(response[3]))
+		regressor.train(loc_samples, loc_responses_1)
+		first_answer = regressor.test(im)
+		loc_samples.append(first_answer)
+		regressor.train(loc_samples, loc_responses_2)
+		second_answer = regressor.test(im)
 
-		answer = regressor.test(im)
-		
 		gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
-		resimg = cv2.adaptiveThreshold(gey, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, answer[0], answer[1])
+		resimg = cv2.adaptiveThreshold(gey, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, first_answer, second_answer)
 
 	cv2.imshow('resultImage',resimg)
 
@@ -95,4 +101,5 @@ if __name__ == '__main__':
 	cv2.destroyAllWindows()
 
 	
+
 
