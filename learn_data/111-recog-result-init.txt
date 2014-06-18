@@ -1,0 +1,21 @@
+AHLEN
+TASTE®DRUCKEN
+
+W
+S
+E
+m
+N .
+A
+WP
+5%.
+WD
+m
+E
+
+1) GELD
+2) NUMME_R
+3) GELDRUCKGABE
+
+-------------------------------
+Threshold: 0 0/255

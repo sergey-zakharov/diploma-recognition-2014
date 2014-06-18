@@ -1,0 +1,6 @@
+'"1) GELD EINWERFEN _ 
+ 2) NUMMEB DES FACHES WAHLEN 
+ 3) GELDRUCKGABE : TASTE ®DRUCKEN%
+
+-------------------------------
+Threshold: 0 158/255
