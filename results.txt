@@ -22,3 +22,9 @@ Overall machine recognition quality: 0.854700854701%
 Overall init recognition quality: 25.7770046205%
 Overall manual recognition quality: 50.261182815%
 Overall machine recognition quality: 5.65934065934%
+
+2014-06-19 15:35:00.086370:
+Overall init recognition quality on 'Learn' dataset: 25.7770046205%
+Overall manual recognition quality on 'Learn' dataset: 50.261182815%
+Overall manual recognition quality on 'Test' dataset: 12.0015485869%
+Overall machine recognition quality on 'Test' dataset: 5.65934065934%

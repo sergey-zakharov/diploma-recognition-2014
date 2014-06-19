@@ -1,0 +1,6 @@
+FIRE EXIT ‘
+
+Keep clear
+
+-------------------------------
+Threshold: 0 0/255
