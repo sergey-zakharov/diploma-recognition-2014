@@ -7,9 +7,7 @@ class Classifier:
 	knn = []
 	nnet = []
 	
-	def initAndTrainNeuralNetwork(self):
-		inputs_f, targets_f = getSamplesAndResponsesFromFiles()
-		# print "targets_f", targets_f
+	def initAndTrainNeuralNetwork(self, inputs_f, targets_f):
 		# The number of elements in an input vector, i.e. the number of nodes
 		# in the input layer of the network.
 		ninputs = len(inputs_f[0])

@@ -22,9 +22,9 @@ if __name__ == '__main__':
 	print "Getting samples and responses"
 	samples, responses = cl.getSamplesAndResponsesFromFiles()
 	print "Training classifier"
-	#print responses
-	classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
-	#classifier.initAndTrainNeuralNetwork()
+	
+	#classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
+	classifier.initAndTrainNeuralNetwork(samples, [np.float32(row[0]) for row in responses])
 
 	for filename in os.listdir('./test_data/originals/'):
 		if filename.split(".")[1] == 'jpg':
@@ -39,7 +39,9 @@ if __name__ == '__main__':
 			im = cv2.imread(test_filename)
 			
 			meth = str(int(classifier.test(im)))
+			meth = predictNeural(self, image)
 			print "Method: ", meth
+			raw_input("Press Enter to continue...")
 			if meth == "0": # cv2.THRESH_BINARY global binarization
 				# train regressor
 				print "Global binarization selected: going to find threshold"
