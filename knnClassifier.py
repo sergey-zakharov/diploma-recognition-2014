@@ -120,8 +120,8 @@ class Classifier:
 		self.knn = cv2.KNearest()
 		self.knn.train(np.array(samples), responses, isRegression=True)
 
-	def test(self, sample_img):
-		k = 10
+	def test(self, sample_img, numNeigh=11):
+		k = numNeigh
 		gray = cv2.cvtColor(sample_img,cv2.COLOR_BGR2GRAY)
 		sample = fe.get_features(gray)
 		sample = np.array(sample,np.float32).reshape((1,len(sample)))

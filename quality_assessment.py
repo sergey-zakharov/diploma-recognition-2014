@@ -82,9 +82,10 @@ def checkManualSelectionRecognitionQualityOnTest():
 	# for each file in test_data/image_map try to get files from gt (prepropcessing) and result of  recognition, and pass them into getRatio
 	return baseCheckRecognitionQuality("-recog-result-init.txt", result_file_prefix='./test_data/', ground_file_prefix='./learn_data/originals/gt/gt_', im_manager_filename="./test_data/image_map")
 
-if __name__ == '__main__':
+def run(knn_num_neighs):
 	#print getRatio(unicode("Airtours holidays"), unicode("Airtours olidays"))
-	results = "Overall init recognition quality on 'Learn' dataset: "+ str(checkInitRecognitionQuality()) + "%\n" +\
+	results = "For KNN with knn_num_neighs =" + str(knn_num_neighs) + ":\n"
+	results += "Overall init recognition quality on 'Learn' dataset: "+ str(checkInitRecognitionQuality()) + "%\n" +\
 	"Overall manual recognition quality on 'Learn' dataset: "+ str(checkManualSelectionRecognitionQuality()) + "%\n"+\
 	"Overall manual recognition quality on 'Test' dataset: "+ str(checkManualSelectionRecognitionQualityOnTest()) + "%\n"+\
 	"Overall machine recognition quality on 'Test' dataset: "+ str(checkMachineSelectionRecognitionQualityOnTest()) + "%"
@@ -95,4 +96,6 @@ if __name__ == '__main__':
 		myfile.write("\n" + str(now) + ":\n" + results + '\n')
 	print "\n" + str(now)
 	print results
-	
+
+if __name__ == '__main__':
+	run()

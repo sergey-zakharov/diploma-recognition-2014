@@ -18,6 +18,7 @@
 !test_binarizations.py
 !quality_assessment.py
 !results.txt
+!settings.py
 !*.txt
 !*.jpg
 !*.JPG

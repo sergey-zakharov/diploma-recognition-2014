@@ -1,9 +1,9 @@
-U3
+ 
 
-"The heart ofa fool is in his mouth, but
-the mouth of a wise man is in his heart."
+"The heart ofa fool is in his mouth, but ‘
+the mouth ofa wise man is in his heart."
 
-(Benjamin Franklin)
+‘ (Benjamin Franklin)
 
  
 

@@ -3,12 +3,13 @@ import numpy as np
 
 
 class ImageManager:
-    image_dict ={}
+    image_dict = {}
     filename = ""
     def __init__(self, image_dict_filename):
         self.filename = image_dict_filename
 
     def loadImageDict(self):
+        image_dict = {}
          # get image_map file and creat dictionary of name and real file name
         image_map_file = open(self.filename, 'r+')
         for line in image_map_file:

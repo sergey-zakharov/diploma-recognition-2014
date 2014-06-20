@@ -28,3 +28,52 @@ Overall init recognition quality on 'Learn' dataset: 25.7770046205%
 Overall manual recognition quality on 'Learn' dataset: 50.261182815%
 Overall manual recognition quality on 'Test' dataset: 12.0015485869%
 Overall machine recognition quality on 'Test' dataset: 5.65934065934%
+
+2014-06-21 02:10:54.952929:
+For KNN with knn_num_neighs =3:
+Overall init recognition quality on 'Learn' dataset: 18.0087719298%
+Overall manual recognition quality on 'Learn' dataset: 40.987757197%
+Overall manual recognition quality on 'Test' dataset: 13.0925984585%
+Overall machine recognition quality on 'Test' dataset: 1.28205128205%
+
+2014-06-21 02:49:16.751931:
+For KNN with knn_num_neighs =3:
+Overall init recognition quality on 'Learn' dataset: 18.0087719298%
+Overall manual recognition quality on 'Learn' dataset: 40.987757197%
+Overall manual recognition quality on 'Test' dataset: 13.0925984585%
+Overall machine recognition quality on 'Test' dataset: 1.28205128205%
+
+2014-06-21 02:52:12.884463:
+For KNN with knn_num_neighs =5:
+Overall init recognition quality on 'Learn' dataset: 20.2360681115%
+Overall manual recognition quality on 'Learn' dataset: 40.3740611617%
+Overall manual recognition quality on 'Test' dataset: 13.0925984585%
+Overall machine recognition quality on 'Test' dataset: 1.28205128205%
+
+2014-06-21 02:55:04.135291:
+For KNN with knn_num_neighs =7:
+Overall init recognition quality on 'Learn' dataset: 20.2360681115%
+Overall manual recognition quality on 'Learn' dataset: 40.3740611617%
+Overall manual recognition quality on 'Test' dataset: 13.0925984585%
+Overall machine recognition quality on 'Test' dataset: 1.28205128205%
+
+2014-06-21 02:57:54.384769:
+For KNN with knn_num_neighs =9:
+Overall init recognition quality on 'Learn' dataset: 20.2360681115%
+Overall manual recognition quality on 'Learn' dataset: 40.3740611617%
+Overall manual recognition quality on 'Test' dataset: 13.0925984585%
+Overall machine recognition quality on 'Test' dataset: 1.28205128205%
+
+2014-06-21 03:00:44.588823:
+For KNN with knn_num_neighs =11:
+Overall init recognition quality on 'Learn' dataset: 20.2360681115%
+Overall manual recognition quality on 'Learn' dataset: 40.3740611617%
+Overall manual recognition quality on 'Test' dataset: 13.0925984585%
+Overall machine recognition quality on 'Test' dataset: 1.28205128205%
+
+2014-06-21 03:03:34.647263:
+For KNN with knn_num_neighs =13:
+Overall init recognition quality on 'Learn' dataset: 20.2360681115%
+Overall manual recognition quality on 'Learn' dataset: 40.3740611617%
+Overall manual recognition quality on 'Test' dataset: 13.0925984585%
+Overall machine recognition quality on 'Test' dataset: 1.28205128205%
