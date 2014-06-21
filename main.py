@@ -145,8 +145,11 @@ def run(knn_num_neigh=11):
 
 
 if __name__ == '__main__':
-	knn_num_neighs = [3]#, 5, 7, 9, 11, 13]
+	knn_num_neighs = [5, 7, 9, 11, 13]
+	start_train = timeit.default_timer()
 	train()
+	stop_train = timeit.default_timer()
+	print "Train time:", str(stop_train - start_train), "seconds"
 	for knn_num_neigh in knn_num_neighs:
 		print "\n\nKNN number of neighbours =", knn_num_neigh
 		start = timeit.default_timer()
@@ -154,7 +157,8 @@ if __name__ == '__main__':
 		run(knn_num_neigh)
 
 		stop = timeit.default_timer()
-		print "Overall time:", str(stop - start), "seconds"
+		print "Recognition time:", str(stop - start), "seconds"
 		
 		if DEBUG != True:
 			qa.run(knn_num_neigh)
+	print "Train time:", str(stop_train - start_train), "seconds"

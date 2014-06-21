@@ -64,8 +64,8 @@ def baseCheckRecognitionQuality(result_file_suffix, result_file_prefix='./learn_
 		except IOError:
 			print "No file:", filename, "\nPassing example"
 			continue
-		print "ground:", ground
-		print "init_recog:", init_recog
+		print "Ground:", ground
+		print "Recog:", init_recog
 		ratio = getRatio(ground, init_recog)
 		print "Ratio:", ratio
 		sum_ratio += ratio
@@ -73,18 +73,22 @@ def baseCheckRecognitionQuality(result_file_suffix, result_file_prefix='./learn_
 		#todo
 	return (sum_ratio/im_number)*100
 def checkInitRecognitionQuality():
+	print "train_data init_recog"
 	return baseCheckRecognitionQuality("-recog-result-init.txt")
 
 def checkManualSelectionRecognitionQuality():
 	# for each file in image map try to get files from gt (prepropcessing) and result of recognition, and pass them into getRatio
+	print "train_data recog"
 	return baseCheckRecognitionQuality("-recog-result.txt")
 
 def checkMachineSelectionRecognitionQualityOnTest():
 	# for each file in test_data/image_map try to get files from gt (prepropcessing) and result of machine-setted recognition, and pass them into getRatio
+	print "test_data recog"
 	return baseCheckRecognitionQuality("-rec.txt", result_file_prefix='./test_data/', ground_file_prefix='./test_data/originals/', im_manager_filename="./test_data/image_map")
 
 def checkManualSelectionRecognitionQualityOnTest():
 	# for each file in test_data/image_map try to get files from gt (prepropcessing) and result of  recognition, and pass them into getRatio
+	print "test_data init_recog"
 	return baseCheckRecognitionQuality("-recog-result-init.txt", result_file_prefix='./test_data/', ground_file_prefix='./test_data/originals/', im_manager_filename="./test_data/image_map")
 
 def run(knn_num_neighs = -1):
@@ -94,7 +98,7 @@ def run(knn_num_neighs = -1):
 		results = "For KNN with knn_num_neighs =" + str(knn_num_neighs) + ":\n"
 	results += "Overall init recognition quality on 'Learn' dataset: "+ str(checkInitRecognitionQuality()) + "%\n" +\
 	"Overall manual recognition quality on 'Learn' dataset: "+ str(checkManualSelectionRecognitionQuality()) + "%\n"+\
-	"Overall manual recognition quality on 'Test' dataset: "+ str(checkManualSelectionRecognitionQualityOnTest()) + "%\n"+\
+	"Overall init recognition quality on 'Test' dataset: "+ str(checkManualSelectionRecognitionQualityOnTest()) + "%\n"+\
 	"Overall machine recognition quality on 'Test' dataset: "+ str(checkMachineSelectionRecognitionQualityOnTest()) + "%"
 	
 	now = datetime.datetime.now()
