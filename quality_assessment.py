@@ -60,7 +60,7 @@ def baseCheckRecognitionQuality(result_file_suffix, result_file_prefix='./learn_
 					line = line.lower()
 					line = line.replace("\n", " ")
 					line = filter_string(line)
-					init_recog += line
+					init_recog += line + " "
 		except IOError:
 			print "No file:", filename, "\nPassing example"
 			continue

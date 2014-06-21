@@ -122,16 +122,29 @@ def run(knn_num_neigh=-1):
 				if adabtive_bin_regressor_1 == None:
 					adabtive_bin_regressor_1 = cl.Regression()
 					print "Training first adaptive threshold regressor"
-					adabtive_bin_regressor_1.train(loc_samples, loc_responses_1)
+					if USE_KNN_IN_REGRESSION:
+						adabtive_bin_regressor_1.train(loc_samples, loc_responses_1)
+					else:
+						adabtive_bin_regressor_1.initAndTrainNeuralNetwork(loc_samples, loc_responses_1, nhidden)
 
 				if adabtive_bin_regressor_2 == None:
 					adabtive_bin_regressor_2 = cl.Regression()
 					print "Training second adaptive threshold regressor"
-					adabtive_bin_regressor_2.train(loc_samples, loc_responses_2)
+					if USE_KNN_IN_REGRESSION:
+						adabtive_bin_regressor_2.train(loc_samples, loc_responses_2)
+					else:
+						adabtive_bin_regressor_2.initAndTrainNeuralNetwork(loc_samples, loc_responses_2, nhidden)
 
-				first_answer = adabtive_bin_regressor_1.test(im)
-				second_answer = adabtive_bin_regressor_2.test(im)
+				if USE_KNN_IN_REGRESSION:
+					first_answer = adabtive_bin_regressor_1.test(im)
+					second_answer = adabtive_bin_regressor_2.test(im)
+				else:
+					first_answer = adabtive_bin_regressor_1.predictNeural(im)
+					second_answer = adabtive_bin_regressor_2.predictNeural(im)
 
+				first_answer = int(first_answer)
+				if first_answer%2 == 0:
+					first_answer+=1
 				print "block size:", first_answer
 				print "C:", second_answer
 
