@@ -18,11 +18,13 @@ def filter_string(str1, str2="0123456789abcdefghijklmnopqrstuvwxyz"):
 def baseCheckRecognitionQuality(result_file_suffix, result_file_prefix='./learn_data/', ground_file_prefix='./learn_data/originals/gt/gt_', im_manager_filename="./learn_data/image_map"):
 	im_manager = fe.ImageManager(im_manager_filename)
 	im_manager.loadImageDict()
+	image_map = {}
 	image_map = im_manager.getImageDict()
 	
 	im_number = 0
 	sum_ratio = 0
-
+	for filename, number in image_map.iteritems():
+		print filename, number
 	# for each file in image map try to get files from gt (prepropcessing) and init-result of recognition, and pass them into getRatio
 	for filename, number in image_map.iteritems():
 		ground = ""
@@ -31,10 +33,13 @@ def baseCheckRecognitionQuality(result_file_suffix, result_file_prefix='./learn_
 		try:
 			filename = filename.split(".")[0] + ".txt"
 			filename = ground_file_prefix + filename
+			print "filename:", filename
 			f = open(filename,"r")
 			lines = f.readlines()
 			for line in lines:
-				line = line.split("\"")[1].lower() + "\n"
+				#if its needed
+				if "," in line:
+					line = line.split("\"")[1].lower() + "\n"
 				ground += line
 			ground = ground.lower()
 			ground = ground.replace("\n", " ")
@@ -76,15 +81,17 @@ def checkManualSelectionRecognitionQuality():
 
 def checkMachineSelectionRecognitionQualityOnTest():
 	# for each file in test_data/image_map try to get files from gt (prepropcessing) and result of machine-setted recognition, and pass them into getRatio
-	return baseCheckRecognitionQuality("-rec.txt", result_file_prefix='./test_data/', ground_file_prefix='./learn_data/originals/gt/gt_', im_manager_filename="./test_data/image_map")
+	return baseCheckRecognitionQuality("-rec.txt", result_file_prefix='./test_data/', ground_file_prefix='./test_data/originals/', im_manager_filename="./test_data/image_map")
 
 def checkManualSelectionRecognitionQualityOnTest():
 	# for each file in test_data/image_map try to get files from gt (prepropcessing) and result of  recognition, and pass them into getRatio
-	return baseCheckRecognitionQuality("-recog-result-init.txt", result_file_prefix='./test_data/', ground_file_prefix='./learn_data/originals/gt/gt_', im_manager_filename="./test_data/image_map")
+	return baseCheckRecognitionQuality("-recog-result-init.txt", result_file_prefix='./test_data/', ground_file_prefix='./test_data/originals/', im_manager_filename="./test_data/image_map")
 
-def run(knn_num_neighs):
+def run(knn_num_neighs = -1):
 	#print getRatio(unicode("Airtours holidays"), unicode("Airtours olidays"))
-	results = "For KNN with knn_num_neighs =" + str(knn_num_neighs) + ":\n"
+	results = ""
+	if knn_num_neighs != -1:
+		results = "For KNN with knn_num_neighs =" + str(knn_num_neighs) + ":\n"
 	results += "Overall init recognition quality on 'Learn' dataset: "+ str(checkInitRecognitionQuality()) + "%\n" +\
 	"Overall manual recognition quality on 'Learn' dataset: "+ str(checkManualSelectionRecognitionQuality()) + "%\n"+\
 	"Overall manual recognition quality on 'Test' dataset: "+ str(checkManualSelectionRecognitionQualityOnTest()) + "%\n"+\

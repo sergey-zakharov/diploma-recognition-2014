@@ -145,7 +145,7 @@ def run(knn_num_neigh=11):
 
 
 if __name__ == '__main__':
-	knn_num_neighs = [3, 5, 7, 9, 11, 13]
+	knn_num_neighs = [3]#, 5, 7, 9, 11, 13]
 	train()
 	for knn_num_neigh in knn_num_neighs:
 		print "\n\nKNN number of neighbours =", knn_num_neigh
