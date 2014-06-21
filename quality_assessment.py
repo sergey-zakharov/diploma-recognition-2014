@@ -91,11 +91,13 @@ def checkManualSelectionRecognitionQualityOnTest():
 	print "test_data init_recog"
 	return baseCheckRecognitionQuality("-recog-result-init.txt", result_file_prefix='./test_data/', ground_file_prefix='./test_data/originals/', im_manager_filename="./test_data/image_map")
 
-def run(knn_num_neighs = -1):
+def run(knn_num_neighs = -1, nhidden=-1):
 	#print getRatio(unicode("Airtours holidays"), unicode("Airtours olidays"))
 	results = ""
 	if knn_num_neighs != -1:
 		results = "For KNN with knn_num_neighs =" + str(knn_num_neighs) + ":\n"
+	if knn_num_neighs != -1:
+		results = "For NeuralNet with nhidden =" + str(nhidden) + ":\n"
 	results += "Overall init recognition quality on 'Learn' dataset: "+ str(checkInitRecognitionQuality()) + "%\n" +\
 	"Overall manual recognition quality on 'Learn' dataset: "+ str(checkManualSelectionRecognitionQuality()) + "%\n"+\
 	"Overall init recognition quality on 'Test' dataset: "+ str(checkManualSelectionRecognitionQualityOnTest()) + "%\n"+\

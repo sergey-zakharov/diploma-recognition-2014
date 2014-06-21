@@ -199,3 +199,94 @@ Overall init recognition quality on 'Learn' dataset: 13.3522120519%
 Overall manual recognition quality on 'Learn' dataset: 39.3896593286%
 Overall init recognition quality on 'Test' dataset: 34.6671522863%
 Overall machine recognition quality on 'Test' dataset: 30.9643439473%
+
+2014-06-21 18:03:18.237062:
+NeuralNet number of hidden nodes = 4
+Training classifier
+ran for 112 iterations
+sum sq. err: 0.00615901
+accuracy: 1.0
+Train time: 9.4614470005 seconds
+Overall init recognition quality on 'Learn' dataset: 13.3522120519%
+Overall manual recognition quality on 'Learn' dataset: 39.3896593286%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 30.8873768852%
+
+2014-06-21 18:05:44.151792:
+NeuralNet number of hidden nodes = 6
+Training classifier
+ran for 91 iterations
+sum sq. err: 0.00551908
+accuracy: 1.0
+Train time: 18.3342530727 seconds
+Overall init recognition quality on 'Learn' dataset: 13.3522120519%
+Overall manual recognition quality on 'Learn' dataset: 39.3896593286%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 30.8873768852%
+
+2014-06-21 18:08:48.318212:
+NeuralNet number of hidden nodes = 8
+Training classifier
+ran for 74 iterations
+sum sq. err: 0.00363546
+accuracy: 1.0
+Train time: 24.2400510311 seconds
+Overall init recognition quality on 'Learn' dataset: 13.3522120519%
+Overall manual recognition quality on 'Learn' dataset: 39.3896593286%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 30.8873768852%
+
+2014-06-21 18:11:52.471620:
+NeuralNet number of hidden nodes = 3
+Training classifier
+ran for 79 iterations
+sum sq. err: 0.00459343
+accuracy: 1.0
+Train time: 24.2861919403 seconds
+Overall init recognition quality on 'Learn' dataset: 13.3522120519%
+Overall manual recognition quality on 'Learn' dataset: 39.3896593286%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 30.8873768852%
+
+2014-06-21 18:14:57.335605:
+NeuralNet number of hidden nodes = 5
+Training classifier
+ran for 76 iterations
+sum sq. err: 0.00418346
+accuracy: 1.0
+Train time: 24.4249520302 seconds
+Overall manual recognition quality on 'Learn' dataset: 39.3896593286%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 30.8873768852%
+
+2014-06-21 18:18:01.941524:
+NeuralNet number of hidden nodes = 7
+Training classifier
+ran for 72 iterations
+sum sq. err: 0.00304046
+accuracy: 1.0
+Train time: 24.3995909691 seconds
+Overall init recognition quality on 'Learn' dataset: 13.3522120519%
+Overall manual recognition quality on 'Learn' dataset: 39.3896593286%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 30.8873768852%
+
+
+
+2014-06-22 00:31:58.542281:
+Overall init recognition quality on 'Learn' dataset: 23.2694412013%
+Overall manual recognition quality on 'Learn' dataset: 50.261182815%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 0.0%
+
+2014-06-22 02:12:46.246955:
+Overall init recognition quality on 'Learn' dataset: 8.18580542265%
+Overall manual recognition quality on 'Learn' dataset: 38.2884590361%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 30.9210691833%
+
+2014-06-22 02:20:22.876021:
+Overall init recognition quality on 'Learn' dataset: 8.18580542265%
+Overall manual recognition quality on 'Learn' dataset: 38.2884590361%
+Overall init recognition quality on 'Test' dataset: 34.6671522863%
+Overall machine recognition quality on 'Test' dataset: 27.7906344007%

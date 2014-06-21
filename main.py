@@ -11,7 +11,8 @@ import quality_assessment as qa
 import settings
 
 DEBUG = False
-USE_KNN_IN_CLASSIFICATION = False
+USE_KNN_IN_CLASSIFICATION = False # else using neural network
+USE_KNN_IN_REGRESSION = False # else using neural network
 
 global_bin_regressor = None
 adabtive_bin_regressor_1 = None
@@ -20,7 +21,7 @@ classifier = []
 samples = []
 responses = []
 
-def train():
+def train(nhidden = -1):
 	global classifier
 	global samples
 	global responses
@@ -35,7 +36,11 @@ def train():
 	if USE_KNN_IN_CLASSIFICATION:
 		classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
 	else:
-		classifier.initAndTrainNeuralNetwork(samples, [row[0] for row in responses])
+		if nhidden != -1:
+			classifier.initAndTrainNeuralNetwork(samples, [row[0] for row in responses], nhidden)
+		else:
+			print "Specify nhidden parameter in train()"
+			return
 
 def run(knn_num_neigh=-1):
 	global classifier
@@ -78,15 +83,23 @@ def run(knn_num_neigh=-1):
 						loc_responses.append(response[1])
 				if global_bin_regressor == None:
 					print "Training global threshold regressor"
-					global_bin_regressor = cl.Regression()
-					
 					loc_responses = map(np.float32, loc_responses)
 					loc_responses = np.array(loc_responses)
 					
-					global_bin_regressor.train(loc_samples, loc_responses)
+					global_bin_regressor = cl.Regression()
+					if USE_KNN_IN_REGRESSION:
+
+						global_bin_regressor.train(loc_samples, loc_responses)
+					else:
+						global_bin_regressor.initAndTrainNeuralNetwork(loc_samples, loc_responses, nhidden)
+					
+
 				# get threshold
+				if USE_KNN_IN_REGRESSION:
+					thres = int(global_bin_regressor.test(im))
+				else:
+					thres = global_bin_regressor.predictNeural(im)
 				
-				thres = int(global_bin_regressor.test(im))
 				print "global threshold: ", thres
 				# prepare image
 				gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
@@ -152,20 +165,39 @@ def run(knn_num_neigh=-1):
 if __name__ == '__main__':
 	if USE_KNN_IN_CLASSIFICATION:
 		knn_num_neighs = [5, 7, 9, 11, 13]
+	else:
+		nhiddens = [8, 16, 24]
 
-	start_train = timeit.default_timer()
-	train()
-	stop_train = timeit.default_timer()
-	print "Train time:", str(stop_train - start_train), "seconds"
-	for knn_num_neigh in knn_num_neighs:
-		print "\n\nKNN number of neighbours =", knn_num_neigh
-		start = timeit.default_timer()
+	if USE_KNN_IN_CLASSIFICATION:
+		start_train = timeit.default_timer()
+		train()
+		stop_train = timeit.default_timer()
+		print "Train time:", str(stop_train - start_train), "seconds"
+		for knn_num_neigh in knn_num_neighs:
+			print "\n\nKNN number of neighbours =", knn_num_neigh
+			start = timeit.default_timer()
 
-		run(knn_num_neigh)
+			run(knn_num_neigh)
 
-		stop = timeit.default_timer()
-		print "Recognition time:", str(stop - start), "seconds"
-		
-		if DEBUG != True:
-			qa.run()
+			stop = timeit.default_timer()
+			print "Recognition time:", str(stop - start), "seconds"
+			
+			if DEBUG != True:
+				qa.run(knn_num_neigh=knn_num_neigh)
+	else:
+		for nhidden in nhiddens:
+			print "\n\nNeuralNet number of hidden nodes =", nhidden
+			start_train = timeit.default_timer()
+			train(nhidden)
+			stop_train = timeit.default_timer()
+			print "Train time:", str(stop_train - start_train), "seconds"
+			start = timeit.default_timer()
+
+			run()
+
+			stop = timeit.default_timer()
+			print "Recognition time:", str(stop - start), "seconds"
+			
+			if DEBUG != True:
+				qa.run(nhidden=nhidden)
 	print "Train time:", str(stop_train - start_train), "seconds"
