@@ -32,11 +32,12 @@ class Classifier:
 		#print "inputs_f", inputs_f
 		#print "targets_f", targets_f
 		#print "targets", targets
-		for i in range(len(inputs)):
-			#print inputs[i,:]
-			#print inputs_f[i]
-			inputs[i,:] = inputs_f[i]
-			targets[i,i] = targets_f[i]
+		
+		# for i in range(len(inputs)):
+		# 	inputs[i,:] = inputs_f[i]
+		# 	targets[i,i] = targets_f[i][0]
+		inputs = np.array(inputs_f)
+		targets = np.array([ np.array([np.float32(row)]) for row in targets_f])
 
 		# Create an array of desired layer sizes for the neural network
 		layers = np.array([ninputs, nhidden, noutput])
@@ -71,6 +72,8 @@ class Classifier:
 		               bp_dw_scale = step_size, 
 		               bp_moment_scale = momentum )
 
+		print "inputs", inputs
+		print "targets", targets
 		# Train our network
 		num_iter = self.nnet.train(inputs, targets, None, params=params)
 
@@ -86,8 +89,9 @@ class Classifier:
 		sse = np.sum( (targets - predictions)**2 )
 
 		# Compute # correct
-		true_labels = np.argmax( targets, axis=0 )
-		pred_labels = np.argmax( predictions, axis=0 )
+		true_labels = targets
+		pred_labels = [ np.array([1.]) if prediction > 0.5 else np.array([0.]) for prediction in predictions] # if prediction > 0.5, it is 1, else it is 0
+		
 		num_correct = np.sum( true_labels == pred_labels )
 
 		print 'ran for %d iterations' % num_iter

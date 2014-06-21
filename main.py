@@ -31,8 +31,10 @@ def train():
 	samples, responses = cl.getSamplesAndResponsesFromFiles()
 	print "Training classifier"
 	
-	classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
-	#classifier.initAndTrainNeuralNetwork(samples, [np.float32(row[0]) for row in responses])
+	#classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
+	outputTrainingData = [row[0] for row in responses]
+	print outputTrainingData
+	classifier.initAndTrainNeuralNetwork(samples, outputTrainingData)
 
 def run(knn_num_neigh=11):
 	global classifier
@@ -57,10 +59,10 @@ def run(knn_num_neigh=11):
 			print "Testing " + test_filename
 			im = cv2.imread(test_filename)
 			
-			meth = str(int(classifier.test(im, knn_num_neigh)))
-			#meth = predictNeural(self, image)
+			#meth = str(int(classifier.test(im, knn_num_neigh)))
+			meth = predictNeural(self, image)
 			print "Method: ", meth
-			#raw_input("Press Enter to continue...")
+			raw_input("Press Enter to continue...")
 			if meth == "0": # cv2.THRESH_BINARY global binarization
 				# train regressor
 				print "Global binarization selected: going to find threshold"
