@@ -11,6 +11,7 @@ import quality_assessment as qa
 import settings
 
 DEBUG = False
+USE_KNN_IN_CLASSIFICATION = False
 
 global_bin_regressor = None
 adabtive_bin_regressor_1 = None
@@ -31,12 +32,12 @@ def train():
 	samples, responses = cl.getSamplesAndResponsesFromFiles()
 	print "Training classifier"
 	
-	#classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
-	outputTrainingData = [row[0] for row in responses]
-	print outputTrainingData
-	classifier.initAndTrainNeuralNetwork(samples, outputTrainingData)
+	if USE_KNN_IN_CLASSIFICATION:
+		classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
+	else:
+		classifier.initAndTrainNeuralNetwork(samples, [row[0] for row in responses])
 
-def run(knn_num_neigh=11):
+def run(knn_num_neigh=-1):
 	global classifier
 	global global_bin_regressor
 	global adabtive_bin_regressor_1
@@ -59,10 +60,12 @@ def run(knn_num_neigh=11):
 			print "Testing " + test_filename
 			im = cv2.imread(test_filename)
 			
-			#meth = str(int(classifier.test(im, knn_num_neigh)))
-			meth = predictNeural(self, image)
+			if USE_KNN_IN_CLASSIFICATION:
+				meth = str(int(classifier.test(im, knn_num_neigh)))
+			else:
+				meth = str(int(classifier.predictNeural(im)))
 			print "Method: ", meth
-			raw_input("Press Enter to continue...")
+			#raw_input("Press Enter to continue...")
 			if meth == "0": # cv2.THRESH_BINARY global binarization
 				# train regressor
 				print "Global binarization selected: going to find threshold"
@@ -147,7 +150,9 @@ def run(knn_num_neigh=11):
 
 
 if __name__ == '__main__':
-	knn_num_neighs = [5, 7, 9, 11, 13]
+	if USE_KNN_IN_CLASSIFICATION:
+		knn_num_neighs = [5, 7, 9, 11, 13]
+
 	start_train = timeit.default_timer()
 	train()
 	stop_train = timeit.default_timer()
@@ -162,5 +167,5 @@ if __name__ == '__main__':
 		print "Recognition time:", str(stop - start), "seconds"
 		
 		if DEBUG != True:
-			qa.run(knn_num_neigh)
+			qa.run()
 	print "Train time:", str(stop_train - start_train), "seconds"

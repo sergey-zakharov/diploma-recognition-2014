@@ -72,8 +72,8 @@ class Classifier:
 		               bp_dw_scale = step_size, 
 		               bp_moment_scale = momentum )
 
-		print "inputs", inputs
-		print "targets", targets
+		#print "inputs", inputs
+		#print "targets", targets
 		# Train our network
 		num_iter = self.nnet.train(inputs, targets, None, params=params)
 
@@ -100,22 +100,20 @@ class Classifier:
 
 	def predictNeural(self, image):
 		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-		inputs_f = fe.get_greyscale_hist_features(gray)
+		inputs_f = fe.get_features(gray)
 
 		# Create a matrix of predictions
-		inputs = np.empty( (1, len(inputs_f)), 'float' )
-		predictions = np.empty_like(inputs)
-		inputs[0,:] = inputs_f
+		inputs = np.array([np.array(inputs_f)])
+		predictions =  np.empty( (1, len(inputs)), 'float' )
 		# See how the network did.
+		#print inputs
 		self.nnet.predict(inputs, predictions)
-		print predictions
+		#print predictions
 		# Compute # correct
-		#true_labels = np.argmax( targets, axis=0 )
-		pred_labels = np.argmax( predictions, axis=0 )
-		#num_correct = np.sum( true_labels == pred_labels )
-
-		print pred_labels
-		#return 
+		pred_labels = [1 if prediction > 0.5 else 0 for prediction in predictions]
+		
+		#print pred_labels
+		return pred_labels[0]
 
 	def getSamplesToPredict(self):
 		pass
