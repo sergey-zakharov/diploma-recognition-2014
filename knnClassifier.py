@@ -129,7 +129,7 @@ class Classifier:
 		return pred_labels[0]
 
 	def trainSVM(self, inputs_f, targets_f, type_i=cv2.SVM_LINEAR, C=2.67, gamma=5.383):
-		svm_params = dict(		kernel_type = cv2.type_i,
+		svm_params = dict(		kernel_type = type_i,
 								svm_type = cv2.SVM_C_SVC,
 								C=C, gamma=5.383)
 		# Create parts

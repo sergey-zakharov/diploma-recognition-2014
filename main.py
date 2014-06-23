@@ -261,7 +261,7 @@ if __name__ == '__main__':
 			for C in [0.2, 0.25, 0.3, 0.4, 0.5]:		# C for classificator
 				for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for classificator
 					start_train = timeit.default_timer()
-					train(p=p, type_i = type_i, C=C, gamma=gamma) # train classificator
+					train(type_i = type_i, C=C, gamma=gamma) # train classificator
 					stop_train = timeit.default_timer()
 					print "Train time:", str(stop_train - start_train), "seconds"
 					start = timeit.default_timer()
