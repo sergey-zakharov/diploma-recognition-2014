@@ -149,10 +149,10 @@ def run(knn_num_neigh=-1):
 				print "C:", second_answer
 
 				gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
-				resimg = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, int(first_answer), int(second_answer))
+				resimg = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, abs(int(first_answer)), int(second_answer))
 
 				with open("./test_data/" + test_filename.split('/')[-1].split('.')[0] +'-method.txt', "w+") as myfile:
-					myfile.write("cv2.ADAPTIVE_THRESH_MEAN_C\n" + "block size:" + str(first_answer) + "\nC:" + str(second_answer))
+					myfile.write("cv2.ADAPTIVE_THRESH_MEAN_C\n" + "block size:" + str(abs(first_answer)) + "\nC:" + str(second_answer))
 			# prepare files
 			save_path = "./test_data/" + test_filename.split('/')[-1].split('.')[0] + ".jpg"
 			recognize_path = "./test_data/" + test_filename.split('/')[-1].split('.')[0] + "-rec"
@@ -179,7 +179,7 @@ if __name__ == '__main__':
 	if USE_KNN_IN_CLASSIFICATION:
 		knn_num_neighs = [5, 7, 9, 11, 13]
 	else:
-		nhiddens = [8, 16, 24]
+		nhiddens = [8]
 
 	if USE_KNN_IN_CLASSIFICATION:
 		start_train = timeit.default_timer()

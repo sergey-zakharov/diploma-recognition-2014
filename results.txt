@@ -338,3 +338,63 @@ Overall init recognition quality on 'Learn' dataset: 19.8030913757%
 Overall manual recognition quality on 'Learn' dataset: 41.3220555495%
 Overall init recognition quality on 'Test' dataset: 42.7120338699%
 Overall machine recognition quality on 'Test' dataset: 34.9049481025%
+
+2014-06-22 03:05:54.276678:
+Overall init recognition quality on 'Learn' dataset: 32.0065266072%
+Overall manual recognition quality on 'Learn' dataset: 52.0209755757%
+Overall init recognition quality on 'Test' dataset: 42.7120338699%
+Overall machine recognition quality on 'Test' dataset: 34.0988981609%
+
+2014-06-22 03:28:05.483088:
+Overall init recognition quality on 'Learn' dataset: 32.0065266072%
+Overall manual recognition quality on 'Learn' dataset: 52.0209755757%
+Overall init recognition quality on 'Test' dataset: 42.7120338699%
+Overall machine recognition quality on 'Test' dataset: 32.0271032891%
+
+2014-06-22 03:50:14.204198:
+Overall init recognition quality on 'Learn' dataset: 32.0065266072%
+Overall manual recognition quality on 'Learn' dataset: 52.0209755757%
+Overall init recognition quality on 'Test' dataset: 42.7120338699%
+Overall machine recognition quality on 'Test' dataset: 30.4476161096%
+
+2014-06-22 13:14:34.295565:
+Overall init recognition quality on 'Learn' dataset: 20.1834005132%
+Overall manual recognition quality on 'Learn' dataset: 40.3562218887%
+Overall init recognition quality on 'Test' dataset: 42.7120338699%
+Overall machine recognition quality on 'Test' dataset: 39.4389355062%
+
+2014-06-22 14:34:28.901574:
+Overall init recognition quality on 'Learn' dataset: 29.2355498366%
+Overall manual recognition quality on 'Learn' dataset: 50.3428210363%
+Overall init recognition quality on 'Test' dataset: 42.7120338699%
+Overall machine recognition quality on 'Test' dataset: 31.3219011834%
+
+2014-06-22 14:54:49.982639:
+Overall init recognition quality on 'Learn' dataset: 29.2355498366%
+Overall manual recognition quality on 'Learn' dataset: 50.3428210363%
+Overall init recognition quality on 'Test' dataset: 42.7120338699%
+Overall machine recognition quality on 'Test' dataset: 31.4885678501%
+
+2014-06-22 15:16:40.608437:
+Overall init recognition quality on 'Learn' dataset: 29.2355498366%
+Overall manual recognition quality on 'Learn' dataset: 50.3428210363%
+Overall init recognition quality on 'Test' dataset: 42.7120338699%
+Overall machine recognition quality on 'Test' dataset: 31.7822416333%
+
+2014-06-22 17:37:53.701099:
+Overall init recognition quality on 'Learn' dataset: 22.0575124675%
+Overall manual recognition quality on 'Learn' dataset: 42.6858613059%
+Overall init recognition quality on 'Test' dataset: 45.950728122%
+Overall machine recognition quality on 'Test' dataset: 29.9651684535%
+
+2014-06-22 17:45:44.101160:
+Overall init recognition quality on 'Learn' dataset: 22.0575124675%
+Overall manual recognition quality on 'Learn' dataset: 42.6858613059%
+Overall init recognition quality on 'Test' dataset: 45.950728122%
+Overall machine recognition quality on 'Test' dataset: 29.9651684535%
+
+2014-06-22 18:11:50.173794:
+Overall init recognition quality on 'Learn' dataset: 31.344321621%
+Overall manual recognition quality on 'Learn' dataset: 51.0855622478%
+Overall init recognition quality on 'Test' dataset: 45.950728122%
+Overall machine recognition quality on 'Test' dataset: 39.4584171877%

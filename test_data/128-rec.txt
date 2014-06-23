@@ -1,7 +1,2 @@
-SPRINKLER 
-VALVE  
-SHAMBER
-
-    
  
 
