@@ -11,8 +11,33 @@ import quality_assessment as qa
 import settings
 
 DEBUG = False
-USE_KNN_IN_CLASSIFICATION = False # else using neural network
-USE_KNN_IN_REGRESSION = False # else using neural network
+
+USE_KNN_IN_REGRESSION = False
+USE_SVM_IN_REGRESSION = True
+USE_ANN_IN_REGRESSION = False
+
+USE_KNN_IN_CLASSIFICATION = False
+USE_SVM_IN_CLASSIFICATION = True
+USE_ANN_IN_CLASSIFICATION = False
+
+if 	(USE_KNN_IN_CLASSIFICATION and USE_SVM_IN_CLASSIFICATION) or \
+	(USE_KNN_IN_CLASSIFICATION and USE_ANN_IN_CLASSIFICATION) or \
+	(USE_ANN_IN_CLASSIFICATION and USE_SVM_IN_CLASSIFICATION):
+	print "Use only ONE type of classifier!"
+	exit(1)
+
+if not USE_KNN_IN_CLASSIFICATION and not USE_SVM_IN_CLASSIFICATION:
+	USE_ANN_IN_CLASSIFICATION = True
+
+if 	(USE_KNN_IN_REGRESSION and USE_SVM_IN_REGRESSION) or \
+	(USE_KNN_IN_REGRESSION and USE_ANN_IN_REGRESSION) or \
+	(USE_ANN_IN_REGRESSION and USE_SVM_IN_REGRESSION):
+	print "Use only ONE type of regressor!"
+	exit(1)
+
+if not USE_KNN_IN_REGRESSION and not USE_SVM_IN_REGRESSION:
+	USE_ANN_IN_REGRESSION = True
+
 
 global_bin_regressor = None
 adabtive_bin_regressor_1 = None
@@ -29,20 +54,20 @@ def train(nhidden = -1):
 	# train classifier
 	print "Creating classifier"
 	classifier = cl.Classifier()
-	print "Getting samples and responses"
-	samples, responses = cl.getSamplesAndResponsesFromFiles()
-	print "Training classifier"
 	
+	print "Training classifier"
 	if USE_KNN_IN_CLASSIFICATION:
 		classifier.train(samples, np.array([np.float32(row[0]) for row in responses]))
-	else:
+	elif USE_ANN_IN_CLASSIFICATION:
 		if nhidden != -1:
 			classifier.initAndTrainNeuralNetwork(samples, [row[0] for row in responses], nhidden)
 		else:
 			print "Specify nhidden parameter in train()"
 			return
+	elif USE_SVM_IN_CLASSIFICATION:
+		classifier.trainSVM(samples, [row[0] for row in responses])
 
-def run(knn_num_neigh=-1):
+def run(knn_num_neigh=-1, nhidden= -1):
 	global classifier
 	global global_bin_regressor
 	global adabtive_bin_regressor_1
@@ -67,8 +92,11 @@ def run(knn_num_neigh=-1):
 			
 			if USE_KNN_IN_CLASSIFICATION:
 				meth = str(int(classifier.test(im, knn_num_neigh)))
-			else:
+			elif USE_ANN_IN_CLASSIFICATION:
 				meth = str(int(classifier.predictNeural(im)))
+			elif USE_SVM_IN_CLASSIFICATION:
+				meth = str(int(classifier.predictSVM(im)))
+
 			print "Method: ", meth
 			#raw_input("Press Enter to continue...")
 			if meth == "0": # cv2.THRESH_BINARY global binarization
@@ -88,18 +116,20 @@ def run(knn_num_neigh=-1):
 					
 					global_bin_regressor = cl.Regression()
 					if USE_KNN_IN_REGRESSION:
-
 						global_bin_regressor.train(loc_samples, loc_responses)
-					else:
+					elif USE_ANN_IN_REGRESSION:
 						global_bin_regressor.initAndTrainNeuralNetwork(loc_samples, loc_responses, nhidden)
-					
+					elif USE_SVM_IN_REGRESSION
+						global_bin_regressor.trainSVM(loc_samples, loc_responses)
 
 				# get threshold
 				if USE_KNN_IN_REGRESSION:
 					thres = int(global_bin_regressor.test(im))
-				else:
+				elif USE_ANN_IN_REGRESSION:
 					thres = global_bin_regressor.predictNeural(im)
-				
+				elif USE_SVM_IN_REGRESSION:
+					thres = global_bin_regressor.predictSVM(im)
+
 				print "global threshold: ", thres
 				# prepare image
 				gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
@@ -124,23 +154,30 @@ def run(knn_num_neigh=-1):
 					print "Training first adaptive threshold regressor"
 					if USE_KNN_IN_REGRESSION:
 						adabtive_bin_regressor_1.train(loc_samples, loc_responses_1)
-					else:
+					elif USE_ANN_IN_REGRESSION:
 						adabtive_bin_regressor_1.initAndTrainNeuralNetwork(loc_samples, loc_responses_1, nhidden)
+					elif USE_SVM_IN_REGRESSION:
+						adabtive_bin_regressor_1.trainSVM(loc_samples, loc_responses_1)
 
 				if adabtive_bin_regressor_2 == None:
 					adabtive_bin_regressor_2 = cl.Regression()
 					print "Training second adaptive threshold regressor"
 					if USE_KNN_IN_REGRESSION:
 						adabtive_bin_regressor_2.train(loc_samples, loc_responses_2)
-					else:
+					elif USE_ANN_IN_REGRESSION:
 						adabtive_bin_regressor_2.initAndTrainNeuralNetwork(loc_samples, loc_responses_2, nhidden)
+					elif USE_SVM_IN_REGRESSION:
+						adabtive_bin_regressor_2.trainSVM(loc_samples, loc_responses_2)
 
 				if USE_KNN_IN_REGRESSION:
 					first_answer = adabtive_bin_regressor_1.test(im)
 					second_answer = adabtive_bin_regressor_2.test(im)
-				else:
+				elif USE_ANN_IN_REGRESSION:
 					first_answer = adabtive_bin_regressor_1.predictNeural(im)
 					second_answer = adabtive_bin_regressor_2.predictNeural(im)
+				elif USE_SVM_IN_REGRESSION:
+					first_answer = adabtive_bin_regressor_1.predictSVM(im)
+					second_answer = adabtive_bin_regressor_2.predictSVM(im)
 
 				first_answer = int(first_answer)
 				if first_answer%2 == 0:
@@ -180,7 +217,10 @@ if __name__ == '__main__':
 		knn_num_neighs = [5, 7, 9, 11, 13]
 	else:
 		nhiddens = [8]
-
+	
+	print "Getting samples and responses"
+	samples, responses = cl.getSamplesAndResponsesFromFiles()
+	
 	if USE_KNN_IN_CLASSIFICATION:
 		start_train = timeit.default_timer()
 		train()
@@ -190,14 +230,14 @@ if __name__ == '__main__':
 			print "\n\nKNN number of neighbours =", knn_num_neigh
 			start = timeit.default_timer()
 
-			run(knn_num_neigh)
+			run(knn_num_neigh=knn_num_neigh)
 
 			stop = timeit.default_timer()
 			print "Recognition time:", str(stop - start), "seconds"
 			
 			if DEBUG != True:
 				qa.run(knn_num_neigh=knn_num_neigh)
-	else:
+	elif USE_ANN_IN_CLASSIFICATION:
 		for nhidden in nhiddens:
 			print "\n\nNeuralNet number of hidden nodes =", nhidden
 			start_train = timeit.default_timer()
@@ -210,7 +250,19 @@ if __name__ == '__main__':
 
 			stop = timeit.default_timer()
 			print "Recognition time:", str(stop - start), "seconds"
-			
-			if DEBUG != True:
-				qa.run(nhidden=nhidden)
+			qa.run(nhidden=nhidden)
+
+	elif USE_SVM_IN_CLASSIFICATION:
+		start_train = timeit.default_timer()
+		train()
+		stop_train = timeit.default_timer()
+		print "Train time:", str(stop_train - start_train), "seconds"
+		start = timeit.default_timer()
+
+		run(nhidden = 8)
+
+		stop = timeit.default_timer()
+		print "Recognition time:", str(stop - start), "seconds"
+		qa.run()
+
 	print "Train time:", str(stop_train - start_train), "seconds"

@@ -6,6 +6,7 @@ import feature_extractor as fe
 class Classifier:
 	knn = []
 	nnet = []
+	svm = []
 	
 	def initAndTrainNeuralNetwork(self, inputs_f, targets_f, nhidden):
 		# The number of elements in an input vector, i.e. the number of nodes
@@ -127,6 +128,58 @@ class Classifier:
 		#print pred_labels
 		return pred_labels[0]
 
+	def trainSVM(self, inputs_f, targets_f):
+		svm_params = dict(		kernel_type = cv2.SVM_LINEAR,
+								svm_type = cv2.SVM_C_SVC,
+								C=2.67, gamma=5.383)
+		# Create parts
+
+		input_len = len(inputs_f)
+		test_part_len = int(input_len * 0.2)
+		
+		trainData = np.array(inputs_f[:(input_len - test_part_len)])
+		testData = np.array(inputs_f[-test_part_len:])
+		
+		
+		trainResponses = targets_f[:(input_len - test_part_len)] # first (input_len - test_part_len)
+		testResponses = targets_f[-test_part_len:] # last test_part_len
+
+		print input_len
+		print test_part_len
+		print (input_len - test_part_len)
+		print "targets_f", targets_f
+		print "trainResponses", trainResponses
+		
+		responses = np.array([ np.array([np.float32(row)]) for row in trainResponses])
+
+		# Train
+		self.svm = cv2.SVM()
+		self.svm.train(trainData, responses, params=svm_params)
+		self.svm.save('./svm_data.dat')
+
+		# Test
+		check_result = self.svm.predict_all(testData)
+		print "check_result", check_result
+
+
+		# Check Accuracy
+		responses = np.array([ np.array([np.float32(row)]) for row in testResponses])
+		check_result = [res[0] for res in check_result]
+		mask = check_result==responses
+		correct = np.count_nonzero(mask)
+		print "Check Accuracy:", correct*100.0/len(check_result)
+
+	def predictSVM(self, im):
+		gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+		inputs_f = []
+		inputs_f.append(fe.get_features(gray))
+		inputs = np.array(inputs_f)
+
+		result = self.svm.predict_all(inputs)
+
+		print result
+		return result[0]
+
 	def getSamplesToPredict(self):
 		pass
 
@@ -145,6 +198,7 @@ class Classifier:
 class Regression:
 	knn = []
 	nnet = []
+	svm = []
 
 	def getSamplesToPredict(self):
 		pass
@@ -289,6 +343,60 @@ class Regression:
 		
 		#print pred_labels
 		return pred_labels[0]
+
+	def trainSVM(self, inputs_f, targets_f):
+		svm_params = dict(		kernel_type = cv2.SVM_LINEAR,
+								svm_type = cv2.EPS_SVR,
+								p = 2.,
+								C=2.67,
+								gamma=5.383)
+		# Create parts
+		
+		input_len = len(inputs_f)
+		test_part_len = int(input_len * 0.2)
+		
+		trainData = np.array(inputs_f[:(input_len - test_part_len)])
+		testData = np.array(inputs_f[-test_part_len:])
+		
+		
+		trainResponses = targets_f[:(input_len - test_part_len)] # first (input_len - test_part_len)
+		testResponses = targets_f[-test_part_len:] # last test_part_len
+
+		print input_len
+		print test_part_len
+		print (input_len - test_part_len)
+		print "targets_f", targets_f
+		print "trainResponses", trainResponses
+		
+		responses = np.array([ np.array([np.float32(row)]) for row in trainResponses])
+
+		# Train
+		self.svm = cv2.SVM()
+		self.svm.train(trainData, responses, params=svm_params)
+		self.svm.save('./svm_data.dat')
+
+		# Test
+		check_result = self.svm.predict_all(testData)
+		print "check_result", check_result
+
+
+		# Check Accuracy
+		responses = np.array([ np.array([np.float32(row)]) for row in testResponses])
+		check_result = [res[0] for res in check_result]
+		mask = check_result==responses
+		correct = np.count_nonzero(mask)
+		print "Check Accuracy:", correct*100.0/len(check_result)
+
+	def predictSVM(self, im):
+		gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+		inputs_f = []
+		inputs_f.append(fe.get_features(gray))
+		inputs = np.array(inputs_f)
+
+		result = self.svm.predict_all(inputs)
+
+		print result
+		return result[0]
 
 
 def getSamplesAndResponsesFromFiles():

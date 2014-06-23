@@ -1,3 +1,2 @@
-cv2.ADAPTIVE_THRESH_MEAN_C
-block size:7
-C:[ 43.79777754]
+cv2.THRESH_BINARY
+threshold:[ 150.04444124]

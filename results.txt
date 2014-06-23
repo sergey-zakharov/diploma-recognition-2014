@@ -398,3 +398,9 @@ Overall init recognition quality on 'Learn' dataset: 31.344321621%
 Overall manual recognition quality on 'Learn' dataset: 51.0855622478%
 Overall init recognition quality on 'Test' dataset: 45.950728122%
 Overall machine recognition quality on 'Test' dataset: 39.4584171877%
+
+2014-06-24 02:07:16.934567:
+Overall init recognition quality on 'Learn' dataset: 26.8446407536%
+Overall manual recognition quality on 'Learn' dataset: 46.1269273402%
+Overall init recognition quality on 'Test' dataset: 45.950728122%
+Overall machine recognition quality on 'Test' dataset: 37.7526233902%
