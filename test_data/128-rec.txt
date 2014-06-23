@@ -1,7 +1,4 @@
-SPR|NK|;ER  T
-VALVE  
-CHAMBER
+ 
 
-    
  
 

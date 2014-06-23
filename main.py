@@ -46,7 +46,7 @@ classifier = []
 samples = []
 responses = []
 
-def train(nhidden = -1):
+def train(nhidden = -1, type_i=cv2.SVM_LINEAR, C=2.67, gamma=5.383):
 	global classifier
 	global samples
 	global responses
@@ -65,9 +65,9 @@ def train(nhidden = -1):
 			print "Specify nhidden parameter in train()"
 			return
 	elif USE_SVM_IN_CLASSIFICATION:
-		classifier.trainSVM(samples, [row[0] for row in responses])
+		classifier.trainSVM(samples, [row[0] for row in responses], type_i, C, gamma)
 
-def run(knn_num_neigh=-1, nhidden= -1):
+def run(knn_num_neigh=-1, nhidden= -1, type_i=cv2.SVM_LINEAR, p=2., C=2.67, gamma=5.383):
 	global classifier
 	global global_bin_regressor
 	global adabtive_bin_regressor_1
@@ -119,8 +119,8 @@ def run(knn_num_neigh=-1, nhidden= -1):
 						global_bin_regressor.train(loc_samples, loc_responses)
 					elif USE_ANN_IN_REGRESSION:
 						global_bin_regressor.initAndTrainNeuralNetwork(loc_samples, loc_responses, nhidden)
-					elif USE_SVM_IN_REGRESSION
-						global_bin_regressor.trainSVM(loc_samples, loc_responses)
+					elif USE_SVM_IN_REGRESSION:
+						global_bin_regressor.trainSVM(loc_samples, loc_responses, type_i, p, C, gamma)
 
 				# get threshold
 				if USE_KNN_IN_REGRESSION:
@@ -157,7 +157,7 @@ def run(knn_num_neigh=-1, nhidden= -1):
 					elif USE_ANN_IN_REGRESSION:
 						adabtive_bin_regressor_1.initAndTrainNeuralNetwork(loc_samples, loc_responses_1, nhidden)
 					elif USE_SVM_IN_REGRESSION:
-						adabtive_bin_regressor_1.trainSVM(loc_samples, loc_responses_1)
+						adabtive_bin_regressor_1.trainSVM(loc_samples, loc_responses_1, type_i, p, C, gamma)
 
 				if adabtive_bin_regressor_2 == None:
 					adabtive_bin_regressor_2 = cl.Regression()
@@ -167,7 +167,7 @@ def run(knn_num_neigh=-1, nhidden= -1):
 					elif USE_ANN_IN_REGRESSION:
 						adabtive_bin_regressor_2.initAndTrainNeuralNetwork(loc_samples, loc_responses_2, nhidden)
 					elif USE_SVM_IN_REGRESSION:
-						adabtive_bin_regressor_2.trainSVM(loc_samples, loc_responses_2)
+						adabtive_bin_regressor_2.trainSVM(loc_samples, loc_responses_2, type_i, p, C, gamma)
 
 				if USE_KNN_IN_REGRESSION:
 					first_answer = adabtive_bin_regressor_1.test(im)
@@ -241,7 +241,7 @@ if __name__ == '__main__':
 		for nhidden in nhiddens:
 			print "\n\nNeuralNet number of hidden nodes =", nhidden
 			start_train = timeit.default_timer()
-			train(nhidden)
+			train(nhidden=nhidden)
 			stop_train = timeit.default_timer()
 			print "Train time:", str(stop_train - start_train), "seconds"
 			start = timeit.default_timer()
@@ -253,16 +253,27 @@ if __name__ == '__main__':
 			qa.run(nhidden=nhidden)
 
 	elif USE_SVM_IN_CLASSIFICATION:
-		start_train = timeit.default_timer()
-		train()
-		stop_train = timeit.default_timer()
-		print "Train time:", str(stop_train - start_train), "seconds"
-		start = timeit.default_timer()
+		types = {
+			"LINEAR" : cv2.SVM_LINEAR,
+			"POLY" : cv2.SVM_POLY
+			}
+		for type_name, type_i in types.iteritems(): # type for classificator
+			for C in [0.2, 0.25, 0.3, 0.4, 0.5]		# C for classificator
+				for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5] # gamma for classificator
+					start_train = timeit.default_timer()
+					train(p=p, type_i = type_i, C=C, gamma=gamma) # train classificator
+					stop_train = timeit.default_timer()
+					print "Train time:", str(stop_train - start_train), "seconds"
+					start = timeit.default_timer()
 
-		run(nhidden = 8)
-
-		stop = timeit.default_timer()
-		print "Recognition time:", str(stop - start), "seconds"
-		qa.run()
+					for type_name, type_i in types.iteritems(): # type for regressors
+						for C in [0.2, 0.25, 0.3, 0.4, 0.5]		# C for regressors
+							for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5] # gamma for regressors
+								for p in [2., 5., 10., 15., 20., 25., 30., 35., 50., 100.] # p for regressors
+									run(type_i=type_i, C=C, p=p, gamma=gamma)
+					stop = timeit.default_timer()
+					print "Recognition time:", str(stop - start), "seconds"
+					text = "SVM: p= " + str(p) + ", type = " + type_name + "gamma = " + str(gamma) + ", C=" + str(C)
+					qa.run(text = text)
 
 	print "Train time:", str(stop_train - start_train), "seconds"

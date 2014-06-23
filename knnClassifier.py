@@ -128,10 +128,10 @@ class Classifier:
 		#print pred_labels
 		return pred_labels[0]
 
-	def trainSVM(self, inputs_f, targets_f):
-		svm_params = dict(		kernel_type = cv2.SVM_LINEAR,
+	def trainSVM(self, inputs_f, targets_f, type_i=cv2.SVM_LINEAR, C=2.67, gamma=5.383):
+		svm_params = dict(		kernel_type = cv2.type_i,
 								svm_type = cv2.SVM_C_SVC,
-								C=2.67, gamma=5.383)
+								C=C, gamma=5.383)
 		# Create parts
 
 		input_len = len(inputs_f)
@@ -165,6 +165,8 @@ class Classifier:
 		# Check Accuracy
 		responses = np.array([ np.array([np.float32(row)]) for row in testResponses])
 		check_result = [res[0] for res in check_result]
+		print responses
+		print check_result
 		mask = check_result==responses
 		correct = np.count_nonzero(mask)
 		print "Check Accuracy:", correct*100.0/len(check_result)
@@ -344,14 +346,14 @@ class Regression:
 		#print pred_labels
 		return pred_labels[0]
 
-	def trainSVM(self, inputs_f, targets_f):
-		svm_params = dict(		kernel_type = cv2.SVM_LINEAR,
-								svm_type = cv2.EPS_SVR,
-								p = 2.,
-								C=2.67,
-								gamma=5.383)
+	def trainSVM(self, inputs_f, targets_f, type_i=cv2.SVM_LINEAR, p=2., C=2.67, gamma=5.383):
+		svm_params = dict(		kernel_type = type_i,
+								svm_type = cv2.SVM_EPS_SVR,
+								p = p, # default = 2.
+								C=C,
+								gamma=gamma)
 		# Create parts
-		
+
 		input_len = len(inputs_f)
 		test_part_len = int(input_len * 0.2)
 		
@@ -383,6 +385,8 @@ class Regression:
 		# Check Accuracy
 		responses = np.array([ np.array([np.float32(row)]) for row in testResponses])
 		check_result = [res[0] for res in check_result]
+		print responses
+		print check_result
 		mask = check_result==responses
 		correct = np.count_nonzero(mask)
 		print "Check Accuracy:", correct*100.0/len(check_result)
