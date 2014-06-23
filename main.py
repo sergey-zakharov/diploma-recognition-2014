@@ -258,8 +258,8 @@ if __name__ == '__main__':
 			"POLY" : cv2.SVM_POLY
 			}
 		for type_name, type_i in types.iteritems(): # type for classificator
-			for C in [0.2, 0.25, 0.3, 0.4, 0.5]		# C for classificator
-				for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5] # gamma for classificator
+			for C in [0.2, 0.25, 0.3, 0.4, 0.5]:		# C for classificator
+				for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for classificator
 					start_train = timeit.default_timer()
 					train(p=p, type_i = type_i, C=C, gamma=gamma) # train classificator
 					stop_train = timeit.default_timer()
@@ -267,9 +267,9 @@ if __name__ == '__main__':
 					start = timeit.default_timer()
 
 					for type_name, type_i in types.iteritems(): # type for regressors
-						for C in [0.2, 0.25, 0.3, 0.4, 0.5]		# C for regressors
-							for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5] # gamma for regressors
-								for p in [2., 5., 10., 15., 20., 25., 30., 35., 50., 100.] # p for regressors
+						for C in [0.2, 0.25, 0.3, 0.4, 0.5]:	# C for regressors
+							for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for regressors
+								for p in [2., 5., 10., 15., 20., 25., 30., 35., 50., 100.]: # p for regressors
 									global_bin_regressor = None
 									adabtive_bin_regressor_1 = None
 									adabtive_bin_regressor_2 = None
