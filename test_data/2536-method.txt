@@ -1,3 +1,3 @@
 cv2.ADAPTIVE_THRESH_MEAN_C
-block size:247
+block size:261
 C:[ 21.]

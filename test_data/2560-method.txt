@@ -1,2 +1,2 @@
 cv2.THRESH_BINARY
-threshold:[ 228.]
+threshold:[ 229.]

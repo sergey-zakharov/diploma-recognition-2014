@@ -1,7 +1,9 @@
-1
+ 
 
-f "The heart of a fool is in his mouth, but
+V "The heart of a fool is in his mouth, but ‘
+
 ‘ the mouth of a wise man is in his heart."
+I
 
-‘ (Benjamin Franklin)
+ (Benjamin Franklin)
 
