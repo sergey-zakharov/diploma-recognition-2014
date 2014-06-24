@@ -135,7 +135,7 @@ class Classifier:
 		# Create parts
 
 		input_len = len(inputs_f)
-		test_part_len = int(input_len * 0.2)
+		test_part_len = int(input_len * 0.05)
 		
 		trainData = np.array(inputs_f[:(input_len - test_part_len)])
 		testData = np.array(inputs_f[-test_part_len:])
@@ -355,7 +355,7 @@ class Regression:
 		# Create parts
 
 		input_len = len(inputs_f)
-		test_part_len = int(input_len * 0.2)
+		test_part_len = int(input_len * 0.05)
 		
 		trainData = np.array(inputs_f[:(input_len - test_part_len)])
 		testData = np.array(inputs_f[-test_part_len:])

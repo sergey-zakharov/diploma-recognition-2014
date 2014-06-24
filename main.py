@@ -179,9 +179,12 @@ def run(knn_num_neigh=-1, nhidden= -1, type_i=cv2.SVM_LINEAR, p=2., C=2.67, gamm
 					first_answer = adabtive_bin_regressor_1.predictSVM(im)
 					second_answer = adabtive_bin_regressor_2.predictSVM(im)
 
-				first_answer = int(first_answer)
+				first_answer = abs(int(first_answer))
 				if first_answer%2 == 0:
 					first_answer+=1
+
+				if first_answer == 1:
+					first_answer = 3
 				print "block size:", first_answer
 				print "C:", second_answer
 
@@ -255,27 +258,41 @@ if __name__ == '__main__':
 	elif USE_SVM_IN_CLASSIFICATION:
 		types = {
 			"LINEAR" : cv2.SVM_LINEAR,
-			"POLY" : cv2.SVM_POLY
+			"RBF" : cv2.SVM_RBF
 			}
-		for type_name, type_i in types.iteritems(): # type for classificator
-			for C in [0.2, 0.25, 0.3, 0.4, 0.5]:		# C for classificator
-				for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for classificator
-					start_train = timeit.default_timer()
-					train(type_i = type_i, C=C, gamma=gamma) # train classificator
-					stop_train = timeit.default_timer()
-					print "Train time:", str(stop_train - start_train), "seconds"
-					start = timeit.default_timer()
+		#for type_name, type_i in types.iteritems(): # type for classificator
+			#for C in [0.2, 0.25, 0.3, 0.4, 0.5]:		# C for classificator
+				#for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for RBF for classificator
+		type_name = "LINEAR"
+		type_i = cv2.SVM_LINEAR
 
-					for type_name, type_i in types.iteritems(): # type for regressors
-						for C in [0.2, 0.25, 0.3, 0.4, 0.5]:	# C for regressors
-							for gamma in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for regressors
-								for p in [2., 5., 10., 15., 20., 25., 30., 35., 50., 100.]: # p for regressors
-									global_bin_regressor = None
-									adabtive_bin_regressor_1 = None
-									adabtive_bin_regressor_2 = None
-									run(type_i=type_i, C=C, p=p, gamma=gamma)
-									
-									text = "SVM: p= " + str(p) + ", type = " + type_name + "gamma = " + str(gamma) + ", C=" + str(C)
-									qa.run(text = text)
+		gamma = 2.
+		C = 0.2
+		
+		start_train = timeit.default_timer()
+		train(type_i = type_i, C=C, gamma=gamma) # train classificator
+		stop_train = timeit.default_timer()
+		print "Train time:", str(stop_train - start_train), "seconds"
+		start = timeit.default_timer()
+
+		#for type_name_r, type_i_r in types.iteritems(): # type for regressors
+			#for C_r in [0.2, 0.25, 0.3, 0.4, 0.5]:	# C for regressors
+				#for gamma_r in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for RBF in regressors
+		for p_r in [30.9, 31.05, 31.15, 31.17]: # p for regressors
+			type_name_r = "LINEAR"
+			type_i_r = cv2.SVM_LINEAR
+			
+			#p_r = 31.05
+			gamma_r = 2.
+			C_r = 0.2
+			
+			global_bin_regressor = None
+			adabtive_bin_regressor_1 = None
+			adabtive_bin_regressor_2 = None
+			run(type_i=type_i_r, C=C_r, p=p_r, gamma=gamma_r)
+			
+			text = "SVM: \n For classification: type = " + type_name + ", gamma = " + str(gamma) + ", C=" + str(C)
+			text+="\n For regression: p= " + str(p_r) + ", type = " + type_name_r + ", gamma = " + str(gamma_r) + ", C=" + str(C_r) + "\n"
+			qa.run(text = text)
 
 	print "Train time:", str(stop_train - start_train), "seconds"
