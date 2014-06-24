@@ -722,3 +722,12 @@ Overall init recognition quality on 'Learn' dataset: 32.0065266072%
 Overall manual recognition quality on 'Learn' dataset: 52.0209755757%
 Overall init recognition quality on 'Test' dataset: 45.950728122%
 Overall machine recognition quality on 'Test' dataset: 40.5696398952%
+
+2014-06-24 18:16:28.963618:
+SVM: 
+ For classification: type = LINEAR, gamma = 2.0, C=0.2
+ For regression: p= 30.95, type = LINEAR, gamma = 2.0, C=0.2
+Overall init recognition quality on 'Learn' dataset: 32.0065266072%
+Overall manual recognition quality on 'Learn' dataset: 52.0209755757%
+Overall init recognition quality on 'Test' dataset: 45.950728122%
+Overall machine recognition quality on 'Test' dataset: 48.489585678%

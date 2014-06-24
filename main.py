@@ -278,7 +278,7 @@ if __name__ == '__main__':
 		#for type_name_r, type_i_r in types.iteritems(): # type for regressors
 			#for C_r in [0.2, 0.25, 0.3, 0.4, 0.5]:	# C for regressors
 				#for gamma_r in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for RBF in regressors
-		for p_r in [30.91, 30.905, 30.895, 31.2, 31.18, 31.19]: # p for regressors
+		for p_r in [30.895, 30.905, 30.91, 30.92, 30.93, 30.94, 30.96, 31.2, 31.18, 31.19]: # p for regressors
 			type_name_r = "LINEAR"
 			type_i_r = cv2.SVM_LINEAR
 			
