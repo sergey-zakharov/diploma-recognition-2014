@@ -78,15 +78,14 @@ def run(knn_num_neigh=-1, nhidden= -1, type_i=cv2.SVM_LINEAR, p=2., C=2.67, gamm
 
 	resimg = None
 
-	for filename in os.listdir('./test_data/originals/'):
+	for filename in os.listdir('./test_data/testset2/originals/'):
 		if filename.split(".")[1] == 'jpg':
 			# testing
 			print "\nTesting:", filename
 			file_name = filename
 			file_raw_name = file_name.split('.')[-2].split('/')[-1]
-			test_filename = "./test_data/originals/" + file_raw_name + ".jpg"
-			original_text_file  = "./test_data/originals/" + file_raw_name + ".txt"
-
+			test_filename = "./test_data/testset2/originals/" + file_raw_name + ".jpg"
+			
 			print "Testing " + test_filename
 			im = cv2.imread(test_filename)
 			
@@ -135,7 +134,7 @@ def run(knn_num_neigh=-1, nhidden= -1, type_i=cv2.SVM_LINEAR, p=2., C=2.67, gamm
 				gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
 				ret, resimg = cv2.threshold(gray, thres, 255, cv2.THRESH_BINARY)
 				
-				with open("./test_data/" + test_filename.split('/')[-1].split('.')[0] +'-method.txt', "w+") as myfile:
+				with open("./test_data/testset2/" + test_filename.split('/')[-1].split('.')[0] +'-method.txt', "w+") as myfile:
 					myfile.write("cv2.THRESH_BINARY\n" + "threshold:" + str(thres))
 			elif meth == "1": # "cv2.ADAPTIVE_THRESH_MEAN_C"
 				print "Adaptive threshold by mean selected: going to find threshold"
@@ -191,11 +190,11 @@ def run(knn_num_neigh=-1, nhidden= -1, type_i=cv2.SVM_LINEAR, p=2., C=2.67, gamm
 				gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
 				resimg = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, abs(int(first_answer)), int(second_answer))
 
-				with open("./test_data/" + test_filename.split('/')[-1].split('.')[0] +'-method.txt', "w+") as myfile:
+				with open("./test_data/testset2/" + test_filename.split('/')[-1].split('.')[0] +'-method.txt', "w+") as myfile:
 					myfile.write("cv2.ADAPTIVE_THRESH_MEAN_C\n" + "block size:" + str(abs(first_answer)) + "\nC:" + str(second_answer))
 			# prepare files
-			save_path = "./test_data/" + test_filename.split('/')[-1].split('.')[0] + ".jpg"
-			recognize_path = "./test_data/" + test_filename.split('/')[-1].split('.')[0] + "-rec"
+			save_path = "./test_data/testset2/" + test_filename.split('/')[-1].split('.')[0] + ".jpg"
+			recognize_path = "./test_data/testset2/" + test_filename.split('/')[-1].split('.')[0] + "-rec"
 
 			cv2.imwrite(save_path,resimg)
 			
@@ -278,7 +277,8 @@ if __name__ == '__main__':
 		#for type_name_r, type_i_r in types.iteritems(): # type for regressors
 			#for C_r in [0.2, 0.25, 0.3, 0.4, 0.5]:	# C for regressors
 				#for gamma_r in [2., 2.5, 3., 2.5, 4., 4.5, 5., 5.383, 5.5, .6, 6.5]: # gamma for RBF in regressors
-		for p_r in [29.9, 29.8, 29.7, 29.5, 29., 28.5, 28., 27., 26.]: # p for regressors
+		#p_range = np.arange(27.,32.,0.2)
+		for p_r in [30.9, 30.95, 30.98, 31.03, 31.05, 31.08, 31.13,31.15, 31.25]: # p for regressors
 			type_name_r = "LINEAR"
 			type_i_r = cv2.SVM_LINEAR
 			

@@ -84,12 +84,12 @@ def checkManualSelectionRecognitionQuality():
 def checkMachineSelectionRecognitionQualityOnTest():
 	# for each file in test_data/image_map try to get files from gt (prepropcessing) and result of machine-setted recognition, and pass them into getRatio
 	print "test_data recog"
-	return baseCheckRecognitionQuality("-rec.txt", result_file_prefix='./test_data/', ground_file_prefix='./test_data/originals/', im_manager_filename="./test_data/image_map")
+	return baseCheckRecognitionQuality("-rec.txt", result_file_prefix='./test_data/testset2/', ground_file_prefix='./test_data/testset2/originals/gt_', im_manager_filename="./test_data/testset2/image_map")
 
 def checkManualSelectionRecognitionQualityOnTest():
 	# for each file in test_data/image_map try to get files from gt (prepropcessing) and result of  recognition, and pass them into getRatio
 	print "test_data init_recog"
-	return baseCheckRecognitionQuality("-recog-result-init.txt", result_file_prefix='./test_data/', ground_file_prefix='./test_data/originals/', im_manager_filename="./test_data/image_map")
+	return baseCheckRecognitionQuality("-recog-result-init.txt", result_file_prefix='./test_data/testset2/', ground_file_prefix='./test_data/testset2/originals/gt_', im_manager_filename="./test_data/testset2/image_map")
 
 def run(knn_num_neighs = -1, nhidden=-1, text = ""):
 	#print getRatio(unicode("Airtours holidays"), unicode("Airtours olidays"))

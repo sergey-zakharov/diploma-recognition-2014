@@ -198,7 +198,7 @@ def updateImageDict():
     global image_directory
 
      # get image_map file and creat dictionary of name and real file name
-    image_map_file = open('./'+image_directory+'/image_map', 'r+')
+    image_map_file = open('./'+image_directory+'image_map', 'r+')
     for line in image_map_file:
         splitted = line.split(' ')
         print splitted
@@ -206,9 +206,9 @@ def updateImageDict():
 
 def removeImageFromDict(image_directory, real_name, name, ending):
     # remove files
-    delete_path = "./"+image_directory+"/" + name + ".jpg"
-    bin_type_path = "./"+image_directory+"/" + name + "-method.txt"
-    recognize_path = "./"+image_directory+"/" + name + "-recog-result" + ending + ".txt"
+    delete_path = "./"+image_directory + name + ".jpg"
+    bin_type_path = "./"+image_directory + name + "-method.txt"
+    recognize_path = "./"+image_directory + name + "-recog-result" + ending + ".txt"
     try:
         print "deleting", delete_path
         os.remove(delete_path)
@@ -226,10 +226,10 @@ def removeImageFromDict(image_directory, real_name, name, ending):
         print "no file", recognize_path
 
     # remove from index
-    f = open('./'+image_directory+'/image_map',"r")
+    f = open('./'+image_directory+'image_map',"r")
     lines = f.readlines()
     f.close()
-    f = open('./'+image_directory+'/image_map',"w")
+    f = open('./'+image_directory+'image_map',"w")
     for line in lines:
         if line.find(real_name) == -1:
             f.write(line)
@@ -249,7 +249,7 @@ def writeToImageDict(filename):
     new_name = str(getNewNameFromImageDict())
     print "new_name", new_name
     image_dict[filename] = new_name
-    with open("./"+image_directory+"/image_map", "a") as myfile:
+    with open("./"+image_directory+"image_map", "a") as myfile:
         myfile.write(filename + " " + str(new_name) +"\n")
     updateImageDict()
     return str(new_name)
@@ -300,7 +300,12 @@ def manualThresholdTypeSelector():
     cv2.imshow('image',img)
     splitted_path = sys.argv[1].split('/')
     filename = splitted_path[-1]
-    image_directory = splitted_path[1]
+    print splitted_path[1:-2]
+
+    image_directory = ""
+    for part in splitted_path[1:-2]:
+        image_directory += part + "/"
+
     print "Image directory", image_directory    
     updateImageDict()
     try:
@@ -327,9 +332,9 @@ def manualThresholdTypeSelector():
                 ending = ''
                 if is_init_image:
                     ending = "-init"
-                save_path = "./"+image_directory+"/" + name + ".jpg"
-                bin_type_path = "./"+image_directory+"/" + name + "-method" # ex: cv2.THRESH_BINARY 123
-                recognize_path = "./"+image_directory+"/" + name + "-recog-result" + ending
+                save_path = "./"+image_directory + name + ".jpg"
+                bin_type_path = "./"+image_directory + name + "-method" # ex: cv2.THRESH_BINARY 123
+                recognize_path = "./"+image_directory + name + "-recog-result" + ending
                 ret = cv2.imwrite(save_path,resimg) #sys.argv[1][:-4] + "-thres.jpg"
                 if ret == 1:
                     print 'Image saved to ' + save_path
